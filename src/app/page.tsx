@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <main className={styles.main}>
       <h1>Welcome to Space X Explorer</h1>
-      <p>Discover SpaceX launches and manage your favorite ones!</p>
+      <p>Discover SpaceX launches .</p>
     </main>
   );
 }
