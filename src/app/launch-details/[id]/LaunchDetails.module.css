@@ -1,0 +1,54 @@
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: system-ui, sans-serif;
+  line-height: 1.5;
+}
+
+.backLink {
+  display: inline-block;
+  margin-bottom: 2rem;
+  color: #0070f3;
+  text-decoration: none;
+}
+
+.backLink:hover {
+  text-decoration: underline;
+}
+
+.patchContainer {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.patch {
+  height: 150px;
+  width: auto;
+}
+
+.section {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid #eaeaea;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.galleryImage {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.error {
+  color: red;
+  padding: 2rem;
+  text-align: center;
+}

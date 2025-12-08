@@ -1,5 +1,6 @@
 import Footer from "@/app/components/Footer/Footer";
 import Nav from "@/app/components/Navbar/Navbar";
+import "./globals.css";
 import React from "react";
 
 export default function RootLayout({
@@ -12,6 +13,7 @@ export default function RootLayout({
       <body>
         <Nav />
         {children}
+        <Footer />
       </body>
     </html>
   );

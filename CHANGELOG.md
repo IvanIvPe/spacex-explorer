@@ -11,7 +11,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Filtering functionality to the launch list component.
-    Filters include Upcoming/Past launches, Successful/Failed launches, and Date range selection
-- Sorting options for launch list by date and mission name.
+- Base API functionality
+- Footer
+- Pictures on launch details page
+- Filtering css styles
+
+
+### Changed
+
+- Detailed view layout improvements
 

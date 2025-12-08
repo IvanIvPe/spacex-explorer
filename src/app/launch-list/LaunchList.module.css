@@ -1,0 +1,55 @@
+.launchListContainer {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: system-ui, sans-serif;
+}
+
+.filters {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.filters input,
+.filters select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  flex-grow: 1;
+}
+
+.launchList {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+}
+
+.launchItem {
+  border: 1px solid #eaeaea;
+  border-radius: 8px;
+}
+
+.launchItem:hover {
+  border-color: #0070f3;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.launchItem a {
+  display: block;
+  padding: 1.5rem;
+  text-decoration: none;
+  color: inherit;
+}
+
+.launchItem h2 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.25rem;
+}
+
+.launchItem p {
+  margin: 0;
+  color: #666;
+}

@@ -1,29 +1,52 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
+import Link from 'next/link';
 import styles from "@/app/launch-list/LaunchList.module.css";
+import { getLaunches } from '@/app/services/spacexApi';
 
 interface Launch {
+    id: string;
     flight_number: number;
-    mission_name: string;
-    launch_date_utc: string;
-    launch_date_local?: string;
-    launch_success?: boolean | null;
+    name: string;
+    date_utc: string;
+    date_local?: string;
+    success?: boolean | null;
     upcoming: boolean;
-    id?: string;
 }
 
 interface LaunchListProps {
-    launches: Launch[];
+    launches?: Launch[];
 }
 
-export default function LaunchList({ launches = [] }: LaunchListProps) {
+export default function LaunchList({ launches: initialLaunches = [] }: LaunchListProps) {
+    const [launches, setLaunches] = useState<Launch[]>(initialLaunches);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
     const [searchQuery, setSearchQuery] = useState<string>('');
     const [timeline, setTimeline] = useState<string>('all');
     const [status, setStatus] = useState<string>('all');
     const [sortBy, setSortBy] = useState<string>('date-desc');
     const [startDate, setStartDate] = useState<string>('');
     const [endDate, setEndDate] = useState<string>('');
+
+    useEffect(() => {
+        const fetchLaunches = async () => {
+            try {
+                setLoading(true);
+                const data = await getLaunches();
+                setLaunches(data as Launch[]);
+                setError(null);
+            } catch (err) {
+                setError(err instanceof Error ? err.message : 'Failed to fetch launches');
+                console.error('Error fetching launches:', err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchLaunches();
+    }, []);
 
     const filteredLaunches = useMemo(() => {
         if (!Array.isArray(launches)) return [];
@@ -32,7 +55,7 @@ export default function LaunchList({ launches = [] }: LaunchListProps) {
             .filter((launch) => {
                 if (!launch) return false;
 
-                const missionName = launch.mission_name || '';
+                const missionName = launch.name || '';
                 const matchesSearch = missionName.toLowerCase().includes(searchQuery.toLowerCase());
 
                 let matchesTimeline = true;
@@ -40,11 +63,11 @@ export default function LaunchList({ launches = [] }: LaunchListProps) {
                 if (timeline === 'past') matchesTimeline = launch.upcoming === false;
 
                 let matchesStatus = true;
-                if (status === 'success') matchesStatus = launch.launch_success === true;
-                if (status === 'failure') matchesStatus = launch.launch_success === false;
+                if (status === 'success') matchesStatus = launch.success === true;
+                if (status === 'failure') matchesStatus = launch.success === false;
 
                 let matchesDate = true;
-                const dateString = launch.launch_date_utc || launch.launch_date_local;
+                const dateString = launch.date_utc || launch.date_local;
                 const launchDate = dateString ? new Date(dateString) : null;
 
                 if (launchDate && !isNaN(launchDate.getTime())) {
@@ -57,10 +80,10 @@ export default function LaunchList({ launches = [] }: LaunchListProps) {
                 return matchesSearch && matchesTimeline && matchesStatus && matchesDate;
             })
             .sort((a, b) => {
-                const dateA = new Date(a.launch_date_utc || 0);
-                const dateB = new Date(b.launch_date_utc || 0);
-                const nameA = a.mission_name || '';
-                const nameB = b.mission_name || '';
+                const dateA = new Date(a.date_utc || 0);
+                const dateB = new Date(b.date_utc || 0);
+                const nameA = a.name || '';
+                const nameB = b.name || '';
 
                 switch (sortBy) {
                     case 'date-desc':
@@ -80,15 +103,19 @@ export default function LaunchList({ launches = [] }: LaunchListProps) {
     return (
         <div className={styles.launchListContainer}>
             <h1>SpaceX Launches</h1>
-            <div className={styles.filters}>
+            {loading && <p>Loading launches...</p>}
+            {error && <p style={{ color: 'red' }}>Error: {error}</p>}
+            {!loading && !error && (
+                <>
+                    <div className={styles.filters}>
                 <input
-                    type="text" 
+                    type="text"
                     placeholder="Search by mission name"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                />      
+                />
                 <select value={timeline} onChange={(e) => setTimeline(e.target.value)}>
-                    <option value="all">All Launches</option>   
+                    <option value="all">All Launches</option>
                     <option value="upcoming">Upcoming Launches</option>
                     <option value="past">Past Launches</option>
                 </select>
@@ -117,14 +144,18 @@ export default function LaunchList({ launches = [] }: LaunchListProps) {
                 />
             </div>
             <ul className={styles.launchList}>
-                {filteredLaunches.map((launch) => ( 
-                    <li key={launch.flight_number} className={styles.launchItem}>
-                        <h2>{launch.mission_name}</h2>
-                        <p>Date: {new Date(launch.launch_date_utc).toLocaleDateString()}</p>
-                        <p>Status: {launch.upcoming ? 'Upcoming' : launch.launch_success ? 'Successful' : 'Failed'}</p>
+                {filteredLaunches.map((launch) => (
+                    <li key={launch.id} className={styles.launchItem}>
+                        <Link href={`/launch-details/${launch.id}`}>
+                            <h2>{launch.name}</h2>
+                            <p>Date: {new Date(launch.date_utc).toLocaleDateString()}</p>
+                            <p>Status: {launch.upcoming ? 'Upcoming' : launch.success ? 'Successful' : 'Failed'}</p>
+                        </Link>
                     </li>
                 ))}
             </ul>
+                </>
+            )}
         </div>
     );
 }
