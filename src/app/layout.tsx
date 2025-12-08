@@ -1,10 +1,6 @@
 import Footer from "@/app/components/Footer/Footer";
 import Nav from "@/app/components/Navbar/Navbar";
-import "./globals.css";
-
 import React from "react";
-
-
 
 export default function RootLayout({
   children,
@@ -13,9 +9,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <body>
         <Nav />
         {children}
-        <Footer />
+      </body>
     </html>
   );
 }
