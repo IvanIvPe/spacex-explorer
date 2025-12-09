@@ -6,6 +6,7 @@ const Favorites: React.FC = () => {
     <div>
       <h1>Favorites Page</h1>
       <p>Manage your favorite SpaceX launches here.</p>
+      
     </div>
   );
 }

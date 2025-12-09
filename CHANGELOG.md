@@ -11,13 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Base API functionality
-- Footer
-- Pictures on launch details page
-- Filtering css styles
+- New background image
+- New button "Go to Launch List" on homepage
+- Added function to Favorite launches in Launch list
 
 
 ### Changed
 
-- Detailed view layout improvements
+- Some CSS styles for better appearance
 

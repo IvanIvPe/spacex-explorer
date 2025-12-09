@@ -132,6 +132,8 @@ export default function LaunchDetails() {
         </div>
       )}
 
+      
+
       {launch.links?.wikipedia && (
         <div className={styles.section}>
           <h2>More Info</h2>
