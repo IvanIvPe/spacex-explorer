@@ -1,3 +1,5 @@
-import LaunchDetails from './LaunchDetails';
+import LaunchDetails from "@/components/launches/LaunchDetails/LaunchDetails";
 
-export default LaunchDetails;
+export default function LaunchDetailsPage() {
+    return <LaunchDetails />;
+}

@@ -2,18 +2,10 @@
 
 import React, { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
-import styles from "@/app/launch-list/LaunchList.module.css";
-import { getLaunches } from '@/app/services/spacexApi';
-
-interface Launch {
-    id: string;
-    flight_number: number;
-    name: string;
-    date_utc: string;
-    date_local?: string;
-    success?: boolean | null;
-    upcoming: boolean;
-}
+import styles from "./LaunchList.module.css";
+import { getLaunches, getLaunchesquery } from '@/services/spacexApi';
+import { Launch } from '@/types/launch';
+import { getFavorites, toggleFavorite as toggleFav } from '@/lib/localStorage';
 
 interface LaunchListProps {
     launches?: Launch[];
@@ -32,30 +24,22 @@ export default function LaunchList({ launches: initialLaunches = [] }: LaunchLis
     const [favorites, setFavorites] = useState<string[]>([]);
 
     useEffect(() => {
-        const saved = localStorage.getItem('spacex_favorites');
-        if (saved) setFavorites(JSON.parse(saved));
+        setFavorites(getFavorites());
     }, []);
 
-    const toggleFavorite = (e: React.MouseEvent, id: string) => {
-        e.preventDefault(); 
+    const handleToggleFavorite = (e: React.MouseEvent, id: string) => {
+        e.preventDefault();
         e.stopPropagation();
 
-        let newFavorites;
-        if (favorites.includes(id)) {
-            newFavorites = favorites.filter(favId => favId !== id);
-        } else {
-            newFavorites = [...favorites, id];
-        }
-        
+        const newFavorites = toggleFav(id);
         setFavorites(newFavorites);
-        localStorage.setItem('spacex_favorites', JSON.stringify(newFavorites));
     };
 
     useEffect(() => {
         const fetchLaunches = async () => {
             try {
                 setLoading(true);
-                const data = await getLaunches();
+                const data = await getLaunchesquery(5);
                 setLaunches(data as Launch[]);
             } catch (err) {
                 setError(err instanceof Error ? err.message : 'Failed to fetch');
@@ -72,7 +56,7 @@ export default function LaunchList({ launches: initialLaunches = [] }: LaunchLis
             .filter((launch) => {
                 if (!launch) return false;
                 const matchesSearch = (launch.name || '').toLowerCase().includes(searchQuery.toLowerCase());
-                
+
                 let matchesTimeline = true;
                 if (timeline === 'upcoming') matchesTimeline = launch.upcoming === true;
                 if (timeline === 'past') matchesTimeline = launch.upcoming === false;
@@ -104,22 +88,44 @@ export default function LaunchList({ launches: initialLaunches = [] }: LaunchLis
             <h1>SpaceX Launches</h1>
             {loading && <p>Loading...</p>}
             {error && <p>Error: {error}</p>}
-            
+
             {!loading && !error && (
                 <>
                     <div className={styles.filters}>
                         <input type="text" placeholder="Search..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} />
+
+                        <select value={timeline} onChange={e => setTimeline(e.target.value)}>
+                            <option value="all">All Timeline</option>
+                            <option value="upcoming">Upcoming</option>
+                            <option value="past">Past</option>
+                        </select>
+
+                        <select value={status} onChange={e => setStatus(e.target.value)}>
+                            <option value="all">All Status</option>
+                            <option value="success">Successful</option>
+                            <option value="failure">Failed</option>
+                        </select>
+
+                        <select value={sortBy} onChange={e => setSortBy(e.target.value)}>
+                            <option value="date-desc">Date (Newest)</option>
+                            <option value="date-asc">Date (Oldest)</option>
+                            <option value="name-asc">Name (A-Z)</option>
+                            <option value="name-desc">Name (Z-A)</option>
+                        </select>
+
+                        <input type="date" placeholder="Start Date" value={startDate} onChange={e => setStartDate(e.target.value)} />
+                        <input type="date" placeholder="End Date" value={endDate} onChange={e => setEndDate(e.target.value)} />
                     </div>
-                    
+
                     <ul className={styles.launchList}>
                         {filteredLaunches.map((launch) => {
                             const isFav = favorites.includes(launch.id);
                             return (
                                 <li key={launch.id} className={styles.launchItem}>
                                     <Link href={`/launch-details/${launch.id}`}>
-                                        
-                                        <button 
-                                            onClick={(e) => toggleFavorite(e, launch.id)}
+
+                                        <button
+                                            onClick={(e) => handleToggleFavorite(e, launch.id)}
                                             className={`${styles.favButton} ${isFav ? styles.active : ''}`}
                                             aria-label={isFav ? "Unfavorite" : "Favorite"}
                                         >
