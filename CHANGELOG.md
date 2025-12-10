@@ -16,12 +16,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- CSS for Navigation Bar to have same size accross all pages
-
-- File structure for better maintainability and scalability
-- Replaced `/launch-list` with a new `/launches` route to match SpaceX API structure
-- Home page link to `/launches` instead of `/launch-list`
-- Back to Launches button on launch details page to navigate to `/launches` instead of `/launch-list`
+- Updated Navbar CSS to enforce consistent height (80px) and prevent layout shifts across pages.
+- Refactored project file structure for better maintainability and scalability.
+- Renamed application route from `/launch-list` to `/launches` to align with SpaceX API naming conventions.
 - Improved Local Storage support for Favorite Launches feature
 
 
