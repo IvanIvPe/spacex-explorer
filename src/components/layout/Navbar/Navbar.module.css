@@ -17,11 +17,11 @@
 .logo {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 2px;
     text-decoration: none;
     color: #1f2937;
     font-weight: 700;
-    font-size: 26.4px;
+    font-size: 26px;
     transition: color 0.2s ease;
 }
 
@@ -29,19 +29,9 @@
     color: #4f46e5;
 }
 
-.logoIcon {
-    color: #4f46e5;
-    font-size: 28.8px;
-}
-
-.logoText {
-    font-weight: 700;
-    font-size: 26.4px;
-    color: #1f2937;
-}
 
 .logoImage {
-    height: 40px;
+    height: 64px;
     width: auto;
 }
 
@@ -57,7 +47,7 @@
 .navLink {
     color: #4b5563;
     text-decoration: none;
-    font-size: 16.8px;
+    font-size: 16px;
     font-weight: 500;
     padding: 12px 28px;
     border-radius: 6px;

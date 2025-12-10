@@ -11,14 +11,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- New favicon for the website
+- Favorite Page: Users can now view and manage their favorite launches on a dedicated Favorites page.
 
 
-### Changed
+### Fixed
 
-- Updated Navbar CSS to enforce consistent height (80px) and prevent layout shifts across pages.
-- Refactored project file structure for better maintainability and scalability.
-- Renamed application route from `/launch-list` to `/launches` to align with SpaceX API naming conventions.
-- Improved Local Storage support for Favorite Launches feature
+- Logo in the Navbar is now correctly showing on all pages.
+- Position of Filter and Sort controls on the Launches page has been adjusted for better user experience.
+- Start Date and End Date filters are now clearly labeled to improve clarity and accessibility.
+
 
 

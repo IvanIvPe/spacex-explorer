@@ -1,44 +1,20 @@
-.launchListContainer {
+.container {
   max-width: 800px;
   margin: 0 auto;
   padding: 2rem;
   font-family: system-ui, sans-serif;
 }
 
-.filters {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 15px;
-  margin-bottom: 2rem;
-  align-items: flex-end;
+.emptyState {
+  text-align: center;
+  margin-top: 4rem;
+  color: #666;
 }
 
-.filters input[type="text"] {
-  grid-column: 1 / -1;
-}
-
-.filterGroup {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  width: 100%;
-}
-
-.filterGroup label {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: #555;
-  margin-left: 2px;
-}
-
-.filters input,
-.filters select {
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  width: 100%;
-  box-sizing: border-box;
-  font-size: 1rem;
+.emptyState a {
+  color: #0070f3;
+  text-decoration: underline;
+  margin-left: 5px;
 }
 
 .launchList {
@@ -52,7 +28,7 @@
   position: relative;
   border: 1px solid #eaeaea;
   border-radius: 8px;
-  background: #fff;
+  transition: all 0.2s ease;
 }
 
 .launchItem:hover {
@@ -85,20 +61,11 @@
   border: none;
   font-size: 2.2rem;
   cursor: pointer;
-  color: #ccc;
+  color: #ffd700;
   transition: all 0.2s ease;
-  z-index: 10;
 }
 
 .favButton:hover {
   transform: scale(1.2);
-  color: #888;
-}
-
-.active {
-  color: #ffd700;
-}
-
-.active:hover {
   color: #ffdb1a;
 }

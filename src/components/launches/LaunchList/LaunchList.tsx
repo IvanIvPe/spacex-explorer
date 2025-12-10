@@ -3,7 +3,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import styles from "./LaunchList.module.css";
-import { getLaunches, getLaunchesquery } from '@/services/spacexApi';
+import { getLaunchesquery } from '@/services/spacexApi';
 import { Launch } from '@/types/launch';
 import { getFavorites, toggleFavorite as toggleFav } from '@/lib/localStorage';
 
@@ -92,7 +92,12 @@ export default function LaunchList({ launches: initialLaunches = [] }: LaunchLis
             {!loading && !error && (
                 <>
                     <div className={styles.filters}>
-                        <input type="text" placeholder="Search..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} />
+                        <input 
+                            type="text" 
+                            placeholder="Search..." 
+                            value={searchQuery} 
+                            onChange={e => setSearchQuery(e.target.value)} 
+                        />
 
                         <select value={timeline} onChange={e => setTimeline(e.target.value)}>
                             <option value="all">All Timeline</option>
@@ -113,8 +118,23 @@ export default function LaunchList({ launches: initialLaunches = [] }: LaunchLis
                             <option value="name-desc">Name (Z-A)</option>
                         </select>
 
-                        <input type="date" placeholder="Start Date" value={startDate} onChange={e => setStartDate(e.target.value)} />
-                        <input type="date" placeholder="End Date" value={endDate} onChange={e => setEndDate(e.target.value)} />
+                        <div className={styles.filterGroup}>
+                            <label>Start Date</label>
+                            <input 
+                                type="date" 
+                                value={startDate} 
+                                onChange={e => setStartDate(e.target.value)} 
+                            />
+                        </div>
+
+                        <div className={styles.filterGroup}>
+                            <label>End Date</label>
+                            <input 
+                                type="date" 
+                                value={endDate} 
+                                onChange={e => setEndDate(e.target.value)} 
+                            />
+                        </div>
                     </div>
 
                     <ul className={styles.launchList}>
@@ -123,7 +143,6 @@ export default function LaunchList({ launches: initialLaunches = [] }: LaunchLis
                             return (
                                 <li key={launch.id} className={styles.launchItem}>
                                     <Link href={`/launch-details/${launch.id}`}>
-
                                         <button
                                             onClick={(e) => handleToggleFavorite(e, launch.id)}
                                             className={`${styles.favButton} ${isFav ? styles.active : ''}`}
