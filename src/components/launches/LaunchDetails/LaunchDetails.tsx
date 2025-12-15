@@ -1,45 +1,16 @@
-'use client';
-
-import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import styles from './LaunchDetails.module.css';
 import { LaunchDetail } from '@/types/launch';
 
-export default function LaunchDetails() {
-    const params = useParams();
-    const launchId = params.id as string;
-    const [launch, setLaunch] = useState<LaunchDetail | null>(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+interface LaunchDetailsProps {
+    launch: LaunchDetail;
+}
 
-    useEffect(() => {
-        const fetchLaunchDetails = async () => {
-            try {
-                setLoading(true);
-                const response = await fetch(`https://api.spacexdata.com/v4/launches/${launchId}`);
-                if (!response.ok) {
-                    throw new Error('Failed to fetch launch details');
-                }
-                const data = await response.json();
-                setLaunch(data);
-                setError(null);
-            } catch (err) {
-                setError(err instanceof Error ? err.message : 'Failed to fetch launch details');
-                console.error('Error fetching launch details:', err);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        if (launchId) {
-            fetchLaunchDetails();
-        }
-    }, [launchId]);
-
-    if (loading) return <div className={styles.container}>Loading launch details...</div>;
-    if (error) return <div className={styles.error}>Error: {error}</div>;
-    if (!launch) return <div className={styles.container}>Launch not found</div>;
+export default function LaunchDetails({ launch }: LaunchDetailsProps) {
+    if (!launch) {
+        return <div className={styles.container}>Launch data not available.</div>;
+    }
 
     return (
         <div className={styles.container}>
@@ -49,17 +20,20 @@ export default function LaunchDetails() {
 
             <div className={styles.patchContainer}>
                 {launch.links?.patch?.large && (
-                    <img
+                    <Image
                         src={launch.links.patch.large}
                         alt={launch.name}
+                        width={150}
+                        height={150}
                         className={styles.patch}
+                        priority
                     />
                 )}
             </div>
 
             <h1>{launch.name}</h1>
             <p><strong>Flight Number:</strong> {launch.flight_number}</p>
-            <p><strong>Date:</strong> {new Date(launch.date_utc).toLocaleString()}</p>
+            <p><strong>Date:</strong> {new Date(launch.date_utc).toLocaleString('en-US', { timeZone: 'UTC' })}</p>
             <p><strong>Status:</strong> {launch.upcoming ? 'Upcoming' : launch.success ? 'Successful' : 'Failed'}</p>
 
             {launch.details && (
@@ -74,10 +48,12 @@ export default function LaunchDetails() {
                     <h2>Gallery</h2>
                     <div className={styles.gallery}>
                         {launch.links.flickr.original.map((url, idx) => (
-                            <img
+                            <Image
                                 key={idx}
                                 src={url}
                                 alt={`${launch.name} - Image ${idx + 1}`}
+                                width={250}
+                                height={200}
                                 className={styles.galleryImage}
                             />
                         ))}
@@ -112,8 +88,6 @@ export default function LaunchDetails() {
                     </a>
                 </div>
             )}
-
-
 
             {launch.links?.wikipedia && (
                 <div className={styles.section}>

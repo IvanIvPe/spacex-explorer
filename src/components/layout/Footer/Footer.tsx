@@ -4,7 +4,7 @@ import styles from "./Footer.module.css";
 const Footer: React.FC = () => {
     return (
         <footer className={styles.footer}>
-            <p>&copy; 2024 SpaceX Explorer. All rights reserved.</p>
+            <p>&copy; 2025 SpaceX Explorer by Ivan.</p>
         </footer>
     );
 };

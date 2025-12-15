@@ -1,34 +1,31 @@
-'use server'
+import axios from 'axios';
 
-export async function getLaunches() {
-    const res = await fetch('https://api.spacexdata.com/v4/launches', {
-        cache: 'no-store',
-    });
+const axiosInstance = axios.create({
+    baseURL: 'https://api.spacexdata.com/v4',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+});
 
-    if (!res.ok) {
-        throw new Error('Failed to fetch launches');
-    }
-    return res.json();
+export interface LaunchParams {
+    order?: 'asc' | 'desc';
+    sort?: string;
+    search?: string;
+    limit?: number;
 }
 
-export async function getLaunchesquery(limit: number = 10) {
-    const res = await fetch(`https://api.spacexdata.com/v4/launches/query`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
+export const getLaunches = async (params?: LaunchParams) => {
+    const response = await axiosInstance.post('/launches/query', {
+        query: params?.search ? { name: { $regex: params.search, $options: 'i' } } : {},
+        options: {
+            limit: params?.limit || 200,
+            sort: { [params?.sort || 'date_utc']: params?.order || 'desc' },
         },
-        body: JSON.stringify({
-            options: {
-                limit,
-                sort: { date_utc: 'desc' },
-            },
-        }),
-        cache: 'no-store',
     });
+    return response.data.docs;
+};
 
-    if (!res.ok) {
-        throw new Error('Failed to fetch launches');
-    }
-    const data = await res.json();
-    return data.docs;
-}
+export const getLaunchById = async (id: string) => {
+    const response = await axiosInstance.get(`/launches/${id}`);
+    return response.data;
+};

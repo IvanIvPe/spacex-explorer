@@ -3,18 +3,14 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import styles from "./LaunchList.module.css";
-import { getLaunches, getLaunchesquery } from '@/services/spacexApi';
 import { Launch } from '@/types/launch';
 import { getFavorites, toggleFavorite as toggleFav } from '@/lib/localStorage';
 
 interface LaunchListProps {
-    launches?: Launch[];
+    launches: Launch[];
 }
 
-export default function LaunchList({ launches: initialLaunches = [] }: LaunchListProps) {
-    const [launches, setLaunches] = useState<Launch[]>(initialLaunches);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+export default function LaunchList({ launches }: LaunchListProps) {
     const [searchQuery, setSearchQuery] = useState('');
     const [timeline, setTimeline] = useState('all');
     const [status, setStatus] = useState('all');
@@ -35,21 +31,6 @@ export default function LaunchList({ launches: initialLaunches = [] }: LaunchLis
         setFavorites(newFavorites);
     };
 
-    useEffect(() => {
-        const fetchLaunches = async () => {
-            try {
-                setLoading(true);
-                const data = await getLaunchesquery(5);
-                setLaunches(data as Launch[]);
-            } catch (err) {
-                setError(err instanceof Error ? err.message : 'Failed to fetch');
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchLaunches();
-    }, []);
-
     const filteredLaunches = useMemo(() => {
         if (!Array.isArray(launches)) return [];
         return launches
@@ -67,8 +48,9 @@ export default function LaunchList({ launches: initialLaunches = [] }: LaunchLis
 
                 let matchesDate = true;
                 const d = new Date(launch.date_utc || launch.date_local || '');
-                if (startDate && d) matchesDate = matchesDate && d >= new Date(startDate);
-                if (endDate && d) matchesDate = matchesDate && d <= new Date(endDate);
+                const isValidDate = !isNaN(d.getTime());
+                if (startDate && isValidDate) matchesDate = matchesDate && d >= new Date(startDate);
+                if (endDate && isValidDate) matchesDate = matchesDate && d <= new Date(endDate);
 
                 return matchesSearch && matchesTimeline && matchesStatus && matchesDate;
             })
@@ -86,62 +68,61 @@ export default function LaunchList({ launches: initialLaunches = [] }: LaunchLis
     return (
         <div className={styles.launchListContainer}>
             <h1>SpaceX Launches</h1>
-            {loading && <p>Loading...</p>}
-            {error && <p>Error: {error}</p>}
 
-            {!loading && !error && (
-                <>
-                    <div className={styles.filters}>
-                        <input type="text" placeholder="Search..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} />
+            <div className={styles.filters}>
+                <input type="text" placeholder="Search..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} />
 
-                        <select value={timeline} onChange={e => setTimeline(e.target.value)}>
-                            <option value="all">All Timeline</option>
-                            <option value="upcoming">Upcoming</option>
-                            <option value="past">Past</option>
-                        </select>
+                <select value={timeline} onChange={e => setTimeline(e.target.value)}>
+                    <option value="all">All Timeline</option>
+                    <option value="upcoming">Upcoming</option>
+                    <option value="past">Past</option>
+                </select>
 
-                        <select value={status} onChange={e => setStatus(e.target.value)}>
-                            <option value="all">All Status</option>
-                            <option value="success">Successful</option>
-                            <option value="failure">Failed</option>
-                        </select>
+                <select value={status} onChange={e => setStatus(e.target.value)}>
+                    <option value="all">All Status</option>
+                    <option value="success">Successful</option>
+                    <option value="failure">Failed</option>
+                </select>
 
-                        <select value={sortBy} onChange={e => setSortBy(e.target.value)}>
-                            <option value="date-desc">Date (Newest)</option>
-                            <option value="date-asc">Date (Oldest)</option>
-                            <option value="name-asc">Name (A-Z)</option>
-                            <option value="name-desc">Name (Z-A)</option>
-                        </select>
+                <select value={sortBy} onChange={e => setSortBy(e.target.value)}>
+                    <option value="date-desc">Date (Newest)</option>
+                    <option value="date-asc">Date (Oldest)</option>
+                    <option value="name-asc">Name (A-Z)</option>
+                    <option value="name-desc">Name (Z-A)</option>
+                </select>
 
-                        <input type="date" placeholder="Start Date" value={startDate} onChange={e => setStartDate(e.target.value)} />
-                        <input type="date" placeholder="End Date" value={endDate} onChange={e => setEndDate(e.target.value)} />
-                    </div>
+                <input type="date" placeholder="Start Date" value={startDate} onChange={e => setStartDate(e.target.value)} />
+                <input type="date" placeholder="End Date" value={endDate} onChange={e => setEndDate(e.target.value)} />
+            </div>
 
-                    <ul className={styles.launchList}>
-                        {filteredLaunches.map((launch) => {
-                            const isFav = favorites.includes(launch.id);
-                            return (
-                                <li key={launch.id} className={styles.launchItem}>
-                                    <Link href={`/launch-details/${launch.id}`}>
-
-                                        <button
-                                            onClick={(e) => handleToggleFavorite(e, launch.id)}
-                                            className={`${styles.favButton} ${isFav ? styles.active : ''}`}
-                                            aria-label={isFav ? "Unfavorite" : "Favorite"}
-                                        >
-                                            {isFav ? '★' : '☆'}
-                                        </button>
-
-                                        <h2>{launch.name}</h2>
-                                        <p>Date: {new Date(launch.date_utc).toLocaleDateString()}</p>
-                                        <p>Status: {launch.upcoming ? 'Upcoming' : launch.success ? 'Successful' : 'Failed'}</p>
-                                    </Link>
-                                </li>
-                            );
-                        })}
-                    </ul>
-                </>
-            )}
+            <ul className={styles.launchList}>
+                {filteredLaunches.map((launch) => {
+                    const isFav = favorites.includes(launch.id);
+                    return (
+                        <li key={launch.id} className={styles.launchItem}>
+                            <Link href={`/launches/${launch.id}`}>
+                                <button
+                                    onClick={(e) => handleToggleFavorite(e, launch.id)}
+                                    className={`${styles.favButton} ${isFav ? styles.active : ''}`}
+                                    aria-label={isFav ? "Unfavorite" : "Favorite"}
+                                >
+                                    {isFav ? '★' : '☆'}
+                                </button>
+                                <h2>{launch.name}</h2>
+                                <p>
+                                    Date: {new Date(launch.date_utc).toLocaleDateString('en-GB', {
+                                        day: '2-digit',
+                                        month: '2-digit',
+                                        year: 'numeric',
+                                        timeZone: 'UTC'
+                                    })}
+                                </p>
+                                <p>Status: {launch.upcoming ? 'Upcoming' : launch.success ? 'Successful' : 'Failed'}</p>
+                            </Link>
+                        </li>
+                    );
+                })}
+            </ul>
         </div>
     );
 }
