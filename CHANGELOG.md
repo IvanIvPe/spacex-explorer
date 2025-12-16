@@ -7,27 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [Unreleased] - 2025-12-15
+## [Unreleased] - 2025-12-16
 
 ### Added
 
-- Loading & Error States:** Added `loading.tsx` and `error.tsx` for both list and detail routes to handle UI states gracefully.
-
-### Fixed
-
-- Resolved hydration mismatch error by standardizing date formatting to use consistent `en-US` locale with UTC timezone in LaunchDetails component
-- Imports of `LaunchDetails` and `LaunchList` components have been corrected to use the proper relative paths.
-- Fixed date filtering logic in `LaunchList` component to correctly handle invalid dates when filtering launches by start and end dates.
+- Added a new reusable `Button` component with a few variants.
+- Placed "No Images Available" placeholder text in the `LaunchDetails` component when there are no images to display.
+- Favorites page that lists all favorited launches with the ability to remove them from favorites.
 
 ### Changed
 
-- Changed all `<img>` tags to Next.js `<Image>` component for optimized image loading and performance improvements.
-- Refactored API calls from `fetch` to `axios` with centralized `axiosInstance` for better error handling and interceptor support.
-- Implemented service layer architecture: `services/spacexApi.ts` handles API logic with reusable functions, wrapped by server actions in `app/api/server/launches.tsx`.
-- Removed unnecessary `'use client'` directive from `LaunchDetails` component, converting it to a Server Component for improved performance.
-- Updated `next.config.ts` to include `remotePatterns` for external image domains (Flickr, Imgur) to support Next.js Image optimization.
+- Downgraded version of React from `"19.2.0"` to `"19.1.3"` in `package.json` for compatibility reasons.
+- Loading and Error states are now reusable components that are used across multiple pages.
 
----
+
+
+### Known Issues
+- Next.js Console Error - DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
 
 ## Future Improvements
 

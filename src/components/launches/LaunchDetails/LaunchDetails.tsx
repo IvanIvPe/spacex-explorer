@@ -1,5 +1,8 @@
+'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
+import { useState } from 'react';
 import styles from './LaunchDetails.module.css';
 import { LaunchDetail } from '@/types/launch';
 
@@ -43,23 +46,24 @@ export default function LaunchDetails({ launch }: LaunchDetailsProps) {
                 </div>
             )}
 
-            {launch.links?.flickr?.original && launch.links.flickr.original.length > 0 && (
-                <div className={styles.section}>
-                    <h2>Gallery</h2>
+            <div className={styles.section}>
+                <h2>Gallery</h2>
+                {launch.links?.flickr?.original && launch.links.flickr.original.length > 0 ? (
                     <div className={styles.gallery}>
                         {launch.links.flickr.original.map((url, idx) => (
-                            <Image
+                            <img
                                 key={idx}
                                 src={url}
                                 alt={`${launch.name} - Image ${idx + 1}`}
-                                width={250}
-                                height={200}
                                 className={styles.galleryImage}
+                                loading="lazy"
                             />
                         ))}
                     </div>
-                </div>
-            )}
+                ) : (
+                    <p className={styles.noImages}>There are currently no pictures for this launch.</p>
+                )}
+            </div>
 
             {launch.rocket && (
                 <div className={styles.section}>

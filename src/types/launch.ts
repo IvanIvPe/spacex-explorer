@@ -6,6 +6,9 @@ export interface Launch {
     date_local?: string;
     success?: boolean | null;
     upcoming: boolean;
+    links?: {
+        flickr?: { original?: string[] };
+    };
 }
 
 export interface LaunchDetail extends Launch {

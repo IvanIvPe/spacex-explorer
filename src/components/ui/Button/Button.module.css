@@ -1,0 +1,90 @@
+.button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+
+.button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.button:active {
+  transform: translateY(0);
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.button:disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.primary:hover {
+  background: linear-gradient(135deg, #5568d3 0%, #63408a 100%);
+}
+
+.secondary {
+  background: transparent;
+  color: #667eea;
+  border: 2px solid #667eea;
+}
+
+.secondary:hover {
+  background: #667eea;
+  color: white;
+}
+
+.removeButton {
+  background-color: transparent;
+  border: 1px solid #fca5a5;
+  color: #dc2626;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.removeButton:hover {
+  background-color: #fef2f2;
+  border-color: #dc2626;
+}
+
+.favorite {
+  background: none;
+  border: none;
+  font-size: 2.2rem;
+  padding: 0.25rem;
+  color: #ccc;
+  transition: all 0.2s ease;
+}
+
+.favorite:hover {
+  transform: scale(1.2);
+  color: #888;
+  box-shadow: none;
+}
+
+.favoriteActive {
+  color: #ffd700;
+}
+
+.favoriteActive:hover {
+  color: #ffdb1a;
+}

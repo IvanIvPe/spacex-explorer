@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
+import Button from '@/components/ui/Button';
 import styles from "./LaunchList.module.css";
 import { Launch } from '@/types/launch';
 import { getFavorites, toggleFavorite as toggleFav } from '@/lib/localStorage';
@@ -101,14 +102,21 @@ export default function LaunchList({ launches }: LaunchListProps) {
                     return (
                         <li key={launch.id} className={styles.launchItem}>
                             <Link href={`/launches/${launch.id}`}>
-                                <button
+                                <Button
                                     onClick={(e) => handleToggleFavorite(e, launch.id)}
-                                    className={`${styles.favButton} ${isFav ? styles.active : ''}`}
+                                    variant="favorite"
+                                    isFavorite={isFav}
+                                    className={styles.favButton}
                                     aria-label={isFav ? "Unfavorite" : "Favorite"}
                                 >
                                     {isFav ? '★' : '☆'}
-                                </button>
-                                <h2>{launch.name}</h2>
+                                </Button>
+                                <h2>
+                                    {launch.name}
+                                    {launch.links?.flickr?.original && launch.links.flickr.original.length > 0 && (
+                                        <span className={styles.cameraIcon} title="Image Exists"> 📷</span>
+                                    )}
+                                </h2>
                                 <p>
                                     Date: {new Date(launch.date_utc).toLocaleDateString('en-GB', {
                                         day: '2-digit',

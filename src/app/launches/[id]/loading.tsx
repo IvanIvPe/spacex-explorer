@@ -1,10 +1,5 @@
-import styles from './styles/loading.module.css';
+import Loading from '@/components/ui/Loading/Loading';
 
-export default function Loading() {
-    return (
-        <div className={styles.container}>
-            <div className={styles.spinner} />
-            <p className={styles.text}>Loading launch details...</p>
-        </div>
-    );
+export default function LoadingPage() {
+    return <Loading text="Loading launch details..." />;
 }

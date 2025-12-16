@@ -21,21 +21,6 @@
 }
 
 .link {
-    background-color: #ffffff;
-    color: #000000;
-    text-decoration: none;
-    font-weight: bold;
-    margin-top: 20px;
+    margin-top: 5rem;
     display: inline-block;
-    border: 2px solid #ffffff;
-    border-radius: 4px;
-    padding: 12px 24px;
-    transition: transform 0.2s ease, background-color 0.2s;
-}
-
-.link:hover {
-    background-color: #cc3e00;
-    border-color: #cc3e00;
-    color: #ffffff;
-    cursor: pointer;
 }

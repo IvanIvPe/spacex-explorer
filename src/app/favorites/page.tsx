@@ -1,5 +1,7 @@
 import Favorites from "@/components/favorites/Favorites";
+import { getLaunchesServer } from "@/app/api/server/launches";
 
-export default function FavoritesPage() {
-    return <Favorites />;
+export default async function FavoritesPage() {
+    const launches = await getLaunchesServer();
+    return <Favorites launches={launches} />;
 }
