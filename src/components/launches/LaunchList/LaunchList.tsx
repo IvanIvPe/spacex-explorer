@@ -27,12 +27,12 @@ export default function LaunchList({ paginatedData, currentParams }: LaunchListP
     const searchParams = useSearchParams();
     const [favorites, setFavorites] = useState<string[]>([]);
     
-    const [searchQuery, setSearchQuery] = useState(currentParams.search || '');
-    const [timeline, setTimeline] = useState(currentParams.timeline || 'all');
-    const [status, setStatus] = useState(currentParams.status || 'all');
-    const [sortBy, setSortBy] = useState(currentParams.sortBy || 'date-desc');
-    const [startDate, setStartDate] = useState(currentParams.startDate || '');
-    const [endDate, setEndDate] = useState(currentParams.endDate || '');
+    const [searchQuery, setSearchQuery] = useState('');
+    const [timeline, setTimeline] = useState('all');
+    const [status, setStatus] = useState('all');
+    const [sortBy, setSortBy] = useState('date-desc');
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
 
     useEffect(() => {
         setFavorites(getFavorites());
@@ -64,7 +64,7 @@ export default function LaunchList({ paginatedData, currentParams }: LaunchListP
         const params = new URLSearchParams(searchParams.toString());
         const currentLimit = Number(params.get('limit')) || 5;
         params.set('limit', (currentLimit + 5).toString());
-        router.push(`/launches?${params.toString()}`);
+        router.push(`/launches?${params.toString()}`, { scroll: false });
     };
 
     return (
@@ -75,24 +75,24 @@ export default function LaunchList({ paginatedData, currentParams }: LaunchListP
                 <input 
                     type="text" 
                     placeholder="Search..." 
-                    value={searchQuery} 
+                    defaultValue={currentParams.search || ''}
                     onChange={e => setSearchQuery(e.target.value)}
                     onKeyDown={e => e.key === 'Enter' && updateFilters()}
                 />
 
-                <select value={timeline} onChange={e => { setTimeline(e.target.value); }}>
+                <select defaultValue={currentParams.timeline || 'all'} onChange={e => { setTimeline(e.target.value); }}>
                     <option value="all">All Timeline</option>
                     <option value="upcoming">Upcoming</option>
                     <option value="past">Past</option>
                 </select>
 
-                <select value={status} onChange={e => { setStatus(e.target.value); }}>
+                <select defaultValue={currentParams.status || 'all'} onChange={e => { setStatus(e.target.value); }}>
                     <option value="all">All Status</option>
                     <option value="success">Successful</option>
                     <option value="failure">Failed</option>
                 </select>
 
-                <select value={sortBy} onChange={e => { setSortBy(e.target.value); }}>
+                <select defaultValue={currentParams.sortBy || 'date-desc'} onChange={e => { setSortBy(e.target.value); }}>
                     <option value="date-desc">Date (Newest)</option>
                     <option value="date-asc">Date (Oldest)</option>
                     <option value="name-asc">Name (A-Z)</option>
@@ -102,13 +102,13 @@ export default function LaunchList({ paginatedData, currentParams }: LaunchListP
                 <input 
                     type="date" 
                     placeholder="Start Date" 
-                    value={startDate} 
+                    defaultValue={currentParams.startDate || ''}
                     onChange={e => setStartDate(e.target.value)} 
                 />
                 <input 
                     type="date" 
                     placeholder="End Date" 
-                    value={endDate} 
+                    defaultValue={currentParams.endDate || ''}
                     onChange={e => setEndDate(e.target.value)} 
                 />
                 

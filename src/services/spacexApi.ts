@@ -81,15 +81,7 @@ export const getLaunches = async (params?: LaunchParams) => {
         },
     });
     
-    return {
-        docs: response.data.docs,
-        totalDocs: response.data.totalDocs,
-        limit: response.data.limit,
-        page: response.data.page,
-        totalPages: response.data.totalPages,
-        hasNextPage: response.data.hasNextPage,
-        hasPrevPage: response.data.hasPrevPage,
-    };
+    return response.data;
 };
 
 export const getLaunchById = async (id: string) => {
