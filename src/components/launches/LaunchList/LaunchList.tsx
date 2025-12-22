@@ -1,24 +1,38 @@
 'use client';
 
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Button from '@/components/ui/Button';
 import styles from "./LaunchList.module.css";
 import { Launch } from '@/types/launch';
 import { getFavorites, toggleFavorite as toggleFav } from '@/lib/localStorage';
+import { PaginatedResponse } from '@/services/spacexApi';
 
 interface LaunchListProps {
-    launches: Launch[];
+    paginatedData: PaginatedResponse<Launch>;
+    currentParams: {
+        limit?: string;
+        search?: string;
+        timeline?: string;
+        status?: string;
+        sortBy?: string;
+        startDate?: string;
+        endDate?: string;
+    };
 }
 
-export default function LaunchList({ launches }: LaunchListProps) {
-    const [searchQuery, setSearchQuery] = useState('');
-    const [timeline, setTimeline] = useState('all');
-    const [status, setStatus] = useState('all');
-    const [sortBy, setSortBy] = useState('date-desc');
-    const [startDate, setStartDate] = useState('');
-    const [endDate, setEndDate] = useState('');
+export default function LaunchList({ paginatedData, currentParams }: LaunchListProps) {
+    const router = useRouter();
+    const searchParams = useSearchParams();
     const [favorites, setFavorites] = useState<string[]>([]);
+    
+    const [searchQuery, setSearchQuery] = useState(currentParams.search || '');
+    const [timeline, setTimeline] = useState(currentParams.timeline || 'all');
+    const [status, setStatus] = useState(currentParams.status || 'all');
+    const [sortBy, setSortBy] = useState(currentParams.sortBy || 'date-desc');
+    const [startDate, setStartDate] = useState(currentParams.startDate || '');
+    const [endDate, setEndDate] = useState(currentParams.endDate || '');
 
     useEffect(() => {
         setFavorites(getFavorites());
@@ -32,72 +46,79 @@ export default function LaunchList({ launches }: LaunchListProps) {
         setFavorites(newFavorites);
     };
 
-    const filteredLaunches = useMemo(() => {
-        if (!Array.isArray(launches)) return [];
-        return launches
-            .filter((launch) => {
-                if (!launch) return false;
-                const matchesSearch = (launch.name || '').toLowerCase().includes(searchQuery.toLowerCase());
+    const updateFilters = () => {
+        const params = new URLSearchParams();
+        
+        if (searchQuery) params.set('search', searchQuery);
+        if (timeline !== 'all') params.set('timeline', timeline);
+        if (status !== 'all') params.set('status', status);
+        if (sortBy !== 'date-desc') params.set('sortBy', sortBy);
+        if (startDate) params.set('startDate', startDate);
+        if (endDate) params.set('endDate', endDate);
+        params.set('limit', '5');
+        
+        router.push(`/launches?${params.toString()}`);
+    };
 
-                let matchesTimeline = true;
-                if (timeline === 'upcoming') matchesTimeline = launch.upcoming === true;
-                if (timeline === 'past') matchesTimeline = launch.upcoming === false;
-
-                let matchesStatus = true;
-                if (status === 'success') matchesStatus = launch.success === true;
-                if (status === 'failure') matchesStatus = launch.success === false;
-
-                let matchesDate = true;
-                const d = new Date(launch.date_utc || launch.date_local || '');
-                const isValidDate = !isNaN(d.getTime());
-                if (startDate && isValidDate) matchesDate = matchesDate && d >= new Date(startDate);
-                if (endDate && isValidDate) matchesDate = matchesDate && d <= new Date(endDate);
-
-                return matchesSearch && matchesTimeline && matchesStatus && matchesDate;
-            })
-            .sort((a, b) => {
-                const dateA = new Date(a.date_utc || 0).getTime();
-                const dateB = new Date(b.date_utc || 0).getTime();
-                if (sortBy === 'date-desc') return dateB - dateA;
-                if (sortBy === 'date-asc') return dateA - dateB;
-                if (sortBy === 'name-asc') return (a.name || '').localeCompare(b.name || '');
-                if (sortBy === 'name-desc') return (b.name || '').localeCompare(a.name || '');
-                return 0;
-            });
-    }, [launches, searchQuery, timeline, status, sortBy, startDate, endDate]);
+    const handleLoadMore = () => {
+        const params = new URLSearchParams(searchParams.toString());
+        const currentLimit = Number(params.get('limit')) || 5;
+        params.set('limit', (currentLimit + 5).toString());
+        router.push(`/launches?${params.toString()}`);
+    };
 
     return (
         <div className={styles.launchListContainer}>
             <h1>SpaceX Launches</h1>
 
             <div className={styles.filters}>
-                <input type="text" placeholder="Search..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} />
+                <input 
+                    type="text" 
+                    placeholder="Search..." 
+                    value={searchQuery} 
+                    onChange={e => setSearchQuery(e.target.value)}
+                    onKeyDown={e => e.key === 'Enter' && updateFilters()}
+                />
 
-                <select value={timeline} onChange={e => setTimeline(e.target.value)}>
+                <select value={timeline} onChange={e => { setTimeline(e.target.value); }}>
                     <option value="all">All Timeline</option>
                     <option value="upcoming">Upcoming</option>
                     <option value="past">Past</option>
                 </select>
 
-                <select value={status} onChange={e => setStatus(e.target.value)}>
+                <select value={status} onChange={e => { setStatus(e.target.value); }}>
                     <option value="all">All Status</option>
                     <option value="success">Successful</option>
                     <option value="failure">Failed</option>
                 </select>
 
-                <select value={sortBy} onChange={e => setSortBy(e.target.value)}>
+                <select value={sortBy} onChange={e => { setSortBy(e.target.value); }}>
                     <option value="date-desc">Date (Newest)</option>
                     <option value="date-asc">Date (Oldest)</option>
                     <option value="name-asc">Name (A-Z)</option>
                     <option value="name-desc">Name (Z-A)</option>
                 </select>
 
-                <input type="date" placeholder="Start Date" value={startDate} onChange={e => setStartDate(e.target.value)} />
-                <input type="date" placeholder="End Date" value={endDate} onChange={e => setEndDate(e.target.value)} />
+                <input 
+                    type="date" 
+                    placeholder="Start Date" 
+                    value={startDate} 
+                    onChange={e => setStartDate(e.target.value)} 
+                />
+                <input 
+                    type="date" 
+                    placeholder="End Date" 
+                    value={endDate} 
+                    onChange={e => setEndDate(e.target.value)} 
+                />
+                
+                <Button onClick={updateFilters} variant="primary">
+                    Apply Filters
+                </Button>
             </div>
 
             <ul className={styles.launchList}>
-                {filteredLaunches.map((launch) => {
+                {paginatedData.docs.map((launch) => {
                     const isFav = favorites.includes(launch.id);
                     return (
                         <li key={launch.id} className={styles.launchItem}>
@@ -131,6 +152,17 @@ export default function LaunchList({ launches }: LaunchListProps) {
                     );
                 })}
             </ul>
+
+            {paginatedData.docs.length < paginatedData.totalDocs && (
+                <div className={styles.loadMoreContainer}>
+                    <Button 
+                        onClick={handleLoadMore}
+                        variant="primary"
+                    >
+                        Load More
+                    </Button>
+                </div>
+            )}
         </div>
     );
 }
