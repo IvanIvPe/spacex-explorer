@@ -26,13 +26,6 @@ export default function LaunchList({ paginatedData, currentParams }: LaunchListP
     const router = useRouter();
     const searchParams = useSearchParams();
     const [favorites, setFavorites] = useState<string[]>([]);
-    
-    const [searchQuery, setSearchQuery] = useState('');
-    const [timeline, setTimeline] = useState('all');
-    const [status, setStatus] = useState('all');
-    const [sortBy, setSortBy] = useState('date-desc');
-    const [startDate, setStartDate] = useState('');
-    const [endDate, setEndDate] = useState('');
 
     useEffect(() => {
         setFavorites(getFavorites());
@@ -46,10 +39,17 @@ export default function LaunchList({ paginatedData, currentParams }: LaunchListP
         setFavorites(newFavorites);
     };
 
-    const updateFilters = () => {
+    const updateFilters = (formData: FormData) => {
         const params = new URLSearchParams();
         
-        if (searchQuery) params.set('search', searchQuery);
+        const search = formData.get('search') as string;
+        const timeline = formData.get('timeline') as string;
+        const status = formData.get('status') as string;
+        const sortBy = formData.get('sortBy') as string;
+        const startDate = formData.get('startDate') as string;
+        const endDate = formData.get('endDate') as string;
+        
+        if (search) params.set('search', search);
         if (timeline !== 'all') params.set('timeline', timeline);
         if (status !== 'all') params.set('status', status);
         if (sortBy !== 'date-desc') params.set('sortBy', sortBy);
@@ -71,28 +71,30 @@ export default function LaunchList({ paginatedData, currentParams }: LaunchListP
         <div className={styles.launchListContainer}>
             <h1>SpaceX Launches</h1>
 
-            <div className={styles.filters}>
+            <form className={styles.filters} onSubmit={(e) => {
+                e.preventDefault();
+                updateFilters(new FormData(e.currentTarget));
+            }}>
                 <input 
-                    type="text" 
+                    type="text"
+                    name="search"
                     placeholder="Search..." 
                     defaultValue={currentParams.search || ''}
-                    onChange={e => setSearchQuery(e.target.value)}
-                    onKeyDown={e => e.key === 'Enter' && updateFilters()}
                 />
 
-                <select defaultValue={currentParams.timeline || 'all'} onChange={e => { setTimeline(e.target.value); }}>
+                <select name="timeline" defaultValue={currentParams.timeline || 'all'}>
                     <option value="all">All Timeline</option>
                     <option value="upcoming">Upcoming</option>
                     <option value="past">Past</option>
                 </select>
 
-                <select defaultValue={currentParams.status || 'all'} onChange={e => { setStatus(e.target.value); }}>
+                <select name="status" defaultValue={currentParams.status || 'all'}>
                     <option value="all">All Status</option>
                     <option value="success">Successful</option>
                     <option value="failure">Failed</option>
                 </select>
 
-                <select defaultValue={currentParams.sortBy || 'date-desc'} onChange={e => { setSortBy(e.target.value); }}>
+                <select name="sortBy" defaultValue={currentParams.sortBy || 'date-desc'}>
                     <option value="date-desc">Date (Newest)</option>
                     <option value="date-asc">Date (Oldest)</option>
                     <option value="name-asc">Name (A-Z)</option>
@@ -100,22 +102,22 @@ export default function LaunchList({ paginatedData, currentParams }: LaunchListP
                 </select>
 
                 <input 
-                    type="date" 
+                    type="date"
+                    name="startDate"
                     placeholder="Start Date" 
                     defaultValue={currentParams.startDate || ''}
-                    onChange={e => setStartDate(e.target.value)} 
                 />
                 <input 
-                    type="date" 
+                    type="date"
+                    name="endDate"
                     placeholder="End Date" 
                     defaultValue={currentParams.endDate || ''}
-                    onChange={e => setEndDate(e.target.value)} 
                 />
                 
-                <Button onClick={updateFilters} variant="primary">
+                <Button type="submit" variant="primary">
                     Apply Filters
                 </Button>
-            </div>
+            </form>
 
             <ul className={styles.launchList}>
                 {paginatedData.docs.map((launch) => {

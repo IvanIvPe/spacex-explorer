@@ -19,7 +19,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Refactored `getLaunches` function in `spacexApi.ts` to return the full API response object instead of just the `docs` array, enabling access to pagination metadata.
 - Prevented scrolling to top on page change in the launches list when loading more launches for a smoother user experience.
 
-
 ### Known Issues
 - Next.js Console Error - DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
 
