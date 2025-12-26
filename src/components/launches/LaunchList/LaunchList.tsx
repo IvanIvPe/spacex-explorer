@@ -75,44 +75,66 @@ export default function LaunchList({ paginatedData, currentParams }: LaunchListP
                 e.preventDefault();
                 updateFilters(new FormData(e.currentTarget));
             }}>
-                <input 
-                    type="text"
-                    name="search"
-                    placeholder="Search..." 
-                    defaultValue={currentParams.search || ''}
-                />
+                <div className={styles.filterGroup}>
+                    <label htmlFor="search">Search</label>
+                    <input 
+                        id="search"
+                        type="text"
+                        name="search"
+                        placeholder="Search..." 
+                        defaultValue={currentParams.search || ''}
+                    />
+                </div>
 
-                <select name="timeline" defaultValue={currentParams.timeline || 'all'}>
-                    <option value="all">All Timeline</option>
-                    <option value="upcoming">Upcoming</option>
-                    <option value="past">Past</option>
-                </select>
+                <div className={styles.filterGroup}>
+                    <label htmlFor="timeline">Timeline</label>
+                    <select id="timeline" name="timeline" defaultValue={currentParams.timeline || 'all'}>
+                        <option value="all">All Timeline</option>
+                        <option value="upcoming">Upcoming</option>
+                        <option value="past">Past</option>
+                    </select>
+                </div>
 
-                <select name="status" defaultValue={currentParams.status || 'all'}>
-                    <option value="all">All Status</option>
-                    <option value="success">Successful</option>
-                    <option value="failure">Failed</option>
-                </select>
+                <div className={styles.filterGroup}>
+                    <label htmlFor="status">Status</label>
+                    <select id="status" name="status" defaultValue={currentParams.status || 'all'}>
+                        <option value="all">All Status</option>
+                        <option value="success">Successful</option>
+                        <option value="failure">Failed</option>
+                    </select>
+                </div>
 
-                <select name="sortBy" defaultValue={currentParams.sortBy || 'date-desc'}>
-                    <option value="date-desc">Date (Newest)</option>
-                    <option value="date-asc">Date (Oldest)</option>
-                    <option value="name-asc">Name (A-Z)</option>
-                    <option value="name-desc">Name (Z-A)</option>
-                </select>
+                <div className={styles.filterGroup}>
+                    <label htmlFor="sortBy">Sort By</label>
+                    <select id="sortBy" name="sortBy" defaultValue={currentParams.sortBy || 'date-desc'}>
+                        <option value="date-desc">Date (Newest)</option>
+                        <option value="date-asc">Date (Oldest)</option>
+                        <option value="name-asc">Name (A-Z)</option>
+                        <option value="name-desc">Name (Z-A)</option>
+                    </select>
+                </div>
 
-                <input 
-                    type="date"
-                    name="startDate"
-                    placeholder="Start Date" 
-                    defaultValue={currentParams.startDate || ''}
-                />
-                <input 
-                    type="date"
-                    name="endDate"
-                    placeholder="End Date" 
-                    defaultValue={currentParams.endDate || ''}
-                />
+                <div className={styles.filterGroup}>
+                    <label htmlFor="startDate">Start Date</label>
+                    <input 
+                        id="startDate"
+                        type="date"
+                        name="startDate"
+                        placeholder="Start Date" 
+                        defaultValue={currentParams.startDate || ''}
+                    />
+                </div>
+
+                <div className={styles.filterGroup}>
+                    <label htmlFor="endDate">End Date</label>
+                    <input 
+                        id="endDate"
+                        type="date"
+                        name="endDate"
+                        placeholder="End Date" 
+                        defaultValue={currentParams.endDate || ''}
+                    />
+                </div>
                 
                 <Button type="submit" variant="primary">
                     Apply Filters

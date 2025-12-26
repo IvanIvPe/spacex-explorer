@@ -11,12 +11,10 @@ interface SearchParams {
     endDate?: string;
 }
 
-export default async function LaunchListPage({
-    searchParams,
-}: {
+export default async function LaunchListPage(props: {
     searchParams: Promise<SearchParams>;
 }) {
-    const params = await searchParams;
+    const params = await props.searchParams;
     const limit = Number(params.limit) || 5;
     const sortBy = params.sortBy || 'date-desc';
     const [sort, order] = sortBy.split('-');
