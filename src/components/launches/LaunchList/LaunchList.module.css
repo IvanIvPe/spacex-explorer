@@ -5,11 +5,14 @@
   font-family: system-ui, sans-serif;
 }
 
+.filtersContainer {
+  margin-bottom: 2rem;
+}
+
 .filters {
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
-  margin-bottom: 2rem;
 }
 
 .filterGroup {
@@ -27,7 +30,8 @@
 }
 
 .filters input,
-.filters select {
+.filters select,
+.searchInput {
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;

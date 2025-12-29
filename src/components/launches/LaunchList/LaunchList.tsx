@@ -114,22 +114,24 @@ export default function LaunchList({ paginatedData, currentParams }: LaunchListP
         <div className={styles.launchListContainer}>
             <h1>SpaceX Launches</h1>
 
-            <div className={styles.filterGroup}>
-                <label htmlFor="search">Search</label>
-                <input 
-                    id="search"
-                    type="text"
-                    name="search"
-                    placeholder="Search..." 
-                    defaultValue={currentParams.search || ''}
-                    onChange={(e) => handleSearch(e.target.value)}
-                />
-            </div>
+            <div className={styles.filtersContainer}>
+                <div className={styles.filterGroup}>
+                    <label htmlFor="search">Search</label>
+                    <input 
+                        id="search"
+                        type="text"
+                        name="search"
+                        placeholder="Search..." 
+                        defaultValue={currentParams.search || ''}
+                        onChange={(e) => handleSearch(e.target.value)}
+                        className={styles.searchInput}
+                    />
+                </div>
 
-            <form className={styles.filters} onSubmit={(e) => {
-                e.preventDefault();
-                updateFilters(new FormData(e.currentTarget));
-            }}>
+                <form className={styles.filters} onSubmit={(e) => {
+                    e.preventDefault();
+                    updateFilters(new FormData(e.currentTarget));
+                }}>
                 <div className={styles.filterGroup}>
                     <label htmlFor="timeline">Timeline</label>
                     <select id="timeline" name="timeline" defaultValue={currentParams.timeline || 'all'}>
@@ -182,6 +184,7 @@ export default function LaunchList({ paginatedData, currentParams }: LaunchListP
                     Apply Filters
                 </Button>
             </form>
+            </div>
 
             <ul className={styles.launchList}>
                 {paginatedData.docs.map((launch) => {
