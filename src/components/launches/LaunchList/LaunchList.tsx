@@ -164,10 +164,6 @@ export default function LaunchList({ paginatedData, currentParams }: LaunchListP
                         id="startDate"
                         type="date"
                         name="startDate"
-<<<<<<< HEAD
-=======
-                        placeholder="Start Date" 
->>>>>>> origin/main
                         defaultValue={currentParams.startDate || ''}
                     />
                 </div>
@@ -178,10 +174,6 @@ export default function LaunchList({ paginatedData, currentParams }: LaunchListP
                         id="endDate"
                         type="date"
                         name="endDate"
-<<<<<<< HEAD
-=======
-                        placeholder="End Date" 
->>>>>>> origin/main
                         defaultValue={currentParams.endDate || ''}
                     />
                 </div>
