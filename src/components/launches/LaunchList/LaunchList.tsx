@@ -8,6 +8,7 @@ import styles from "./LaunchList.module.css";
 import { Launch } from '@/types/launch';
 import { getFavorites, toggleFavorite as toggleFav } from '@/lib/localStorage';
 import { PaginatedResponse } from '@/services/spacexApi';
+import { useDebouncedCallback } from 'use-debounce';
 
 interface LaunchListProps {
     paginatedData: PaginatedResponse<Launch>;
@@ -39,26 +40,68 @@ export default function LaunchList({ paginatedData, currentParams }: LaunchListP
         setFavorites(newFavorites);
     };
 
+
+    const handleSearch = useDebouncedCallback((term: string) => {
+        const params = new URLSearchParams(searchParams.toString());
+
+        if (term) {
+            params.set('search', term);
+        } else {
+            params.delete('search');
+        }
+
+        params.set('limit', '5');
+
+        router.push(`/launches?${params.toString()}`);
+    }, 500);
+
+
     const updateFilters = (formData: FormData) => {
-        const params = new URLSearchParams();
+        const params = new URLSearchParams(searchParams.toString());
         
-        const search = formData.get('search') as string;
         const timeline = formData.get('timeline') as string;
         const status = formData.get('status') as string;
         const sortBy = formData.get('sortBy') as string;
         const startDate = formData.get('startDate') as string;
         const endDate = formData.get('endDate') as string;
+
+        if (timeline !== 'all') {
+            params.set('timeline', timeline);
+        } else {
+            params.delete('timeline');
+        }
         
-        if (search) params.set('search', search);
-        if (timeline !== 'all') params.set('timeline', timeline);
-        if (status !== 'all') params.set('status', status);
-        if (sortBy !== 'date-desc') params.set('sortBy', sortBy);
-        if (startDate) params.set('startDate', startDate);
-        if (endDate) params.set('endDate', endDate);
+        if (status !== 'all') {
+            params.set('status', status);
+        } else {
+            params.delete('status');
+        }
+        
+        if (sortBy !== 'date-desc') {
+            params.set('sortBy', sortBy);
+        } else {
+            params.delete('sortBy');
+        }
+        
+        if (startDate) {
+            params.set('startDate', startDate);
+        } else {
+            params.delete('startDate');
+        }
+        
+        if (endDate) {
+            params.set('endDate', endDate);
+        } else {
+            params.delete('endDate');
+        }
+        
         params.set('limit', '5');
         
         router.push(`/launches?${params.toString()}`);
     };
+    
+
+
 
     const handleLoadMore = () => {
         const params = new URLSearchParams(searchParams.toString());
@@ -83,6 +126,7 @@ export default function LaunchList({ paginatedData, currentParams }: LaunchListP
                         name="search"
                         placeholder="Search..." 
                         defaultValue={currentParams.search || ''}
+                        onChange={(e) => handleSearch(e.target.value)}
                     />
                 </div>
 
