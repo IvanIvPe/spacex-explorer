@@ -114,22 +114,22 @@ export default function LaunchList({ paginatedData, currentParams }: LaunchListP
         <div className={styles.launchListContainer}>
             <h1>SpaceX Launches</h1>
 
+            <div className={styles.filterGroup}>
+                <label htmlFor="search">Search</label>
+                <input 
+                    id="search"
+                    type="text"
+                    name="search"
+                    placeholder="Search..." 
+                    defaultValue={currentParams.search || ''}
+                    onChange={(e) => handleSearch(e.target.value)}
+                />
+            </div>
+
             <form className={styles.filters} onSubmit={(e) => {
                 e.preventDefault();
                 updateFilters(new FormData(e.currentTarget));
             }}>
-                <div className={styles.filterGroup}>
-                    <label htmlFor="search">Search</label>
-                    <input 
-                        id="search"
-                        type="text"
-                        name="search"
-                        placeholder="Search..." 
-                        defaultValue={currentParams.search || ''}
-                        onChange={(e) => handleSearch(e.target.value)}
-                    />
-                </div>
-
                 <div className={styles.filterGroup}>
                     <label htmlFor="timeline">Timeline</label>
                     <select id="timeline" name="timeline" defaultValue={currentParams.timeline || 'all'}>
@@ -164,7 +164,6 @@ export default function LaunchList({ paginatedData, currentParams }: LaunchListP
                         id="startDate"
                         type="date"
                         name="startDate"
-                        placeholder="Start Date" 
                         defaultValue={currentParams.startDate || ''}
                     />
                 </div>
@@ -175,7 +174,6 @@ export default function LaunchList({ paginatedData, currentParams }: LaunchListP
                         id="endDate"
                         type="date"
                         name="endDate"
-                        placeholder="End Date" 
                         defaultValue={currentParams.endDate || ''}
                     />
                 </div>
