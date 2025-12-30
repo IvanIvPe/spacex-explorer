@@ -50,8 +50,6 @@ export default function LaunchList({ paginatedData, currentParams }: LaunchListP
             params.delete('search');
         }
 
-        params.set('limit', '5');
-
         router.push(`/launches?${params.toString()}`);
     }, 500);
 
@@ -149,7 +147,7 @@ export default function LaunchList({ paginatedData, currentParams }: LaunchListP
                         <option value="failure">Failed</option>
                     </select>
                 </div>
-
+   
                 <div className={styles.filterGroup}>
                     <label htmlFor="sortBy">Sort By</label>
                     <select id="sortBy" name="sortBy" defaultValue={currentParams.sortBy || 'date-desc'}>
