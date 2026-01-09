@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { getFavorites, toggleFavorite } from '@/lib/localStorage';
+import { useFavoritesStore } from '@/stores/useFavoritesStore';
 import { Launch } from '@/types/launch';
 import Button from '@/components/ui/Button';
 import styles from './Favorites.module.css';
@@ -12,17 +12,15 @@ interface FavoritesProps {
 }
 
 export default function Favorites({ launches }: FavoritesProps) {
-  const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
+  const { favoriteIds, removeFavorite } = useFavoritesStore();
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    setFavoriteIds(getFavorites());
     setIsLoaded(true);
   }, []);
 
   const handleRemove = (id: string) => {
-    const newFavorites = toggleFavorite(id);
-    setFavoriteIds(newFavorites);
+    removeFavorite(id);
   };
 
   const favoriteLaunches = launches.filter(launch => favoriteIds.includes(launch.id));

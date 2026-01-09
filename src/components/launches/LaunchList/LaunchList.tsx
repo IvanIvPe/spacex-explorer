@@ -6,7 +6,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import Button from '@/components/ui/Button';
 import styles from "./LaunchList.module.css";
 import { Launch } from '@/types/launch';
-import { getFavorites, toggleFavorite as toggleFav } from '@/lib/localStorage';
+import { useFavoritesStore } from '@/stores/useFavoritesStore';
 import { PaginatedResponse } from '@/services/spacexApi';
 import { useDebouncedCallback } from 'use-debounce';
 
@@ -26,18 +26,12 @@ interface LaunchListProps {
 export default function LaunchList({ paginatedData, currentParams }: LaunchListProps) {
     const router = useRouter();
     const searchParams = useSearchParams();
-    const [favorites, setFavorites] = useState<string[]>([]);
-
-    useEffect(() => {
-        setFavorites(getFavorites());
-    }, []);
+    const { favoriteIds, toggleFavorite } = useFavoritesStore();
 
     const handleToggleFavorite = (e: React.MouseEvent, id: string) => {
         e.preventDefault();
         e.stopPropagation();
-
-        const newFavorites = toggleFav(id);
-        setFavorites(newFavorites);
+        toggleFavorite(id);
     };
 
 
@@ -186,7 +180,7 @@ export default function LaunchList({ paginatedData, currentParams }: LaunchListP
 
             <ul className={styles.launchList}>
                 {paginatedData.docs.map((launch) => {
-                    const isFav = favorites.includes(launch.id);
+                    const isFav = favoriteIds.includes(launch.id);
                     return (
                         <li key={launch.id} className={styles.launchItem}>
                             <Link href={`/launches/${launch.id}`}>
