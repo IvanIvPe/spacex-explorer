@@ -13,10 +13,11 @@ interface FavoritesProps {
 
 export default function Favorites({ launches }: FavoritesProps) {
   const { favoriteIds, removeFavorite } = useFavoritesStore();
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
+  // Prevent hydration mismatch by only rendering after client-side mount
   useEffect(() => {
-    setIsLoaded(true);
+    setMounted(true);
   }, []);
 
   const handleRemove = (id: string) => {
@@ -25,7 +26,7 @@ export default function Favorites({ launches }: FavoritesProps) {
 
   const favoriteLaunches = launches.filter(launch => favoriteIds.includes(launch.id));
 
-  if (!isLoaded) {
+  if (!mounted) {
     return <div className={styles.loading}>Loading your favorites...</div>;
   }
 

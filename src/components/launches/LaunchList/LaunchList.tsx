@@ -26,7 +26,8 @@ interface LaunchListProps {
 export default function LaunchList({ paginatedData, currentParams }: LaunchListProps) {
     const router = useRouter();
     const searchParams = useSearchParams();
-    const { favoriteIds, toggleFavorite } = useFavoritesStore();
+    const favoriteIds = useFavoritesStore(state => state.favoriteIds);
+    const toggleFavorite = useFavoritesStore(state => state.toggleFavorite);
 
     const handleToggleFavorite = (e: React.MouseEvent, id: string) => {
         e.preventDefault();
