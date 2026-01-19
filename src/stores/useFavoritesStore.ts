@@ -5,10 +5,8 @@ interface FavoritesState {
   favoriteIds: string[];
   hasHydrated: boolean;
   setHasHydrated: (hydrated: boolean) => void;
-  addFavorite: (id: string) => void;
   removeFavorite: (id: string) => void;
   toggleFavorite: (id: string) => void;
-  isFavorite: (id: string) => boolean;
 }
 
 export const useFavoritesStore = create<FavoritesState>()(
@@ -17,13 +15,6 @@ export const useFavoritesStore = create<FavoritesState>()(
       favoriteIds: [],
       hasHydrated: false,
       setHasHydrated: (hydrated: boolean) => set({ hasHydrated: hydrated }),
-      
-      addFavorite: (id: string) =>
-        set((state) => ({
-          favoriteIds: state.favoriteIds.includes(id)
-            ? state.favoriteIds
-            : [...state.favoriteIds, id],
-        })),
       
       removeFavorite: (id: string) =>
         set((state) => ({
@@ -36,8 +27,6 @@ export const useFavoritesStore = create<FavoritesState>()(
             ? state.favoriteIds.filter((favId) => favId !== id)
             : [...state.favoriteIds, id],
         })),
-      
-      isFavorite: (id: string) => get().favoriteIds.includes(id),
     }),
     {
       name: 'spacex_favorites',
