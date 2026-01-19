@@ -12,8 +12,9 @@ export default function Favorites() {
 
   const { data: favoriteLaunches = [], isLoading, isError, refetch } = useQuery<Launch[]>({
     queryKey: ['favorites', favoriteIds],
-    queryFn: () => getLaunchesByIds(favoriteIds),
-    enabled: hasHydrated && favoriteIds.length > 0,
+    queryFn: () => 
+      favoriteIds.length > 0 ? getLaunchesByIds(favoriteIds) : Promise.resolve([]) as Promise<Launch[]>,
+    enabled: hasHydrated,
   });
 
   const handleRemove = (id: string) => {

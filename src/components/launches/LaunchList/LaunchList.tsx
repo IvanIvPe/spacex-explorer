@@ -89,6 +89,7 @@ export default function LaunchList({ paginatedData, currentParams }: LaunchListP
         }
         
         params.set('limit', '5');
+        params.delete('page');
         
         router.push(`/launches?${params.toString()}`);
     };
