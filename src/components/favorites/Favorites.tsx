@@ -10,7 +10,7 @@ import { getLaunchesByIds } from '@/services/spacexApi';
 export default function Favorites() {
   const { favoriteIds, removeFavorite, hasHydrated } = useFavoritesStore();
 
-  const { data: favoriteLaunches = [], isLoading, isError } = useQuery<Launch[]>({
+  const { data: favoriteLaunches = [], isLoading, isError, refetch } = useQuery<Launch[]>({
     queryKey: ['favorites', favoriteIds],
     queryFn: () => getLaunchesByIds(favoriteIds),
     enabled: hasHydrated && favoriteIds.length > 0,
@@ -25,7 +25,22 @@ export default function Favorites() {
   }
 
   if (isError) {
-    return <div className={styles.error}>Error loading launches. Please try again.</div>;
+    return (
+      <div className={styles.container}>
+        <h1>Your Favorite Launches</h1>
+        <div className={styles.emptyState}>
+          <p>Error loading your favorite launches.</p>
+          <div className={styles.actions}>
+            <Button onClick={() => refetch()} variant="primary">
+              Retry
+            </Button>
+            <Link href="/launches" className={styles.link}>
+              Browse Launches
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (

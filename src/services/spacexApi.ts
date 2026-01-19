@@ -98,6 +98,7 @@ export const getLaunchesByIds = async (ids: string[]) => {
         },
         options: {
             pagination: false,
+            sort: { date_utc: -1 },
         },
     });
     

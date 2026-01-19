@@ -11,10 +11,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added consistent sorting to `getLaunchesByIds` function (sorts by date_utc in descending order)
+- Added retry functionality to favorites error state with a dedicated retry button
+- Added improved empty state in favorites error handling with link to browse launches
 
-### Changed
+### Fixed
 
-- Refactored `Favorites.tsx` to use Zustand store instead of manual localStorage management
-- Refactored `LaunchList.tsx` to use Zustand store for favorites state
-- Removed server-side data fetching from `app/favorites/page.tsx`
-- Moved data fetching to client-side using React Query in `Favorites.tsx` component
+- Fixed inconsistent ordering of favorite launches in the UI by adding sort option to API query
+- Improved error handling in Favorites component - users can now retry fetching or navigate to browse launches instead of being stuck on error message
