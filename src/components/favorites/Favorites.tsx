@@ -4,36 +4,27 @@ import { useFavoritesStore } from '@/stores/useFavoritesStore';
 import { Launch } from '@/types/launch';
 import Button from '@/components/ui/Button';
 import styles from './Favorites.module.css';
-import { useQueries } from '@tanstack/react-query';
-import { getLaunchById } from '@/services/spacexApi';
+import { useQuery } from '@tanstack/react-query';
+import { getLaunchesByIds } from '@/services/spacexApi';
 
 export default function Favorites() {
   const { favoriteIds, removeFavorite, hasHydrated } = useFavoritesStore();
 
-  const launchQueries = useQueries({
-    queries: favoriteIds.map((id) => ({
-      queryKey: ['launch', id],
-      queryFn: () => getLaunchById(id),
-      enabled: hasHydrated && favoriteIds.length > 0,
-    })),
+  const { data: favoriteLaunches = [], isLoading, isError } = useQuery<Launch[]>({
+    queryKey: ['favorites', favoriteIds],
+    queryFn: () => getLaunchesByIds(favoriteIds),
+    enabled: hasHydrated && favoriteIds.length > 0,
   });
 
   const handleRemove = (id: string) => {
     removeFavorite(id);
   };
-
-  const favoriteLaunches = launchQueries
-    .map((query) => query.data)
-    .filter((launch): launch is Launch => launch !== undefined);
   
-  const isLoading = launchQueries.some((query) => query.isLoading || query.isPending);
-  const error = launchQueries.some((query) => query.isError);
-
   if (!hasHydrated || isLoading) {
     return <div className={styles.loading}>Loading your favorites...</div>;
   }
 
-  if (error) {
+  if (isError) {
     return <div className={styles.error}>Error loading launches. Please try again.</div>;
   }
 
