@@ -1,6 +1,4 @@
 'use client';
-
-import { useEffect } from 'react';
 import Link from 'next/link';
 import { useFavoritesStore } from '@/stores/useFavoritesStore';
 import { Launch } from '@/types/launch';
@@ -10,7 +8,7 @@ import { useQueries } from '@tanstack/react-query';
 import { getLaunchById } from '@/services/spacexApi';
 
 export default function Favorites() {
-  const { favoriteIds, removeFavorite, hasHydrated, setHasHydrated } = useFavoritesStore();
+  const { favoriteIds, removeFavorite, hasHydrated } = useFavoritesStore();
 
   const launchQueries = useQueries({
     queries: favoriteIds.map((id) => ({
@@ -19,10 +17,6 @@ export default function Favorites() {
       enabled: hasHydrated && favoriteIds.length > 0,
     })),
   });
-
-  useEffect(() => {
-    useFavoritesStore.persist.rehydrate();
-  }, []);
 
   const handleRemove = (id: string) => {
     removeFavorite(id);
