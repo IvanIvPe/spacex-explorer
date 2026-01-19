@@ -6,16 +6,19 @@ import { useFavoritesStore } from '@/stores/useFavoritesStore';
 import { Launch } from '@/types/launch';
 import Button from '@/components/ui/Button';
 import styles from './Favorites.module.css';
-import { useQuery } from '@tanstack/react-query';
-import { getLaunches, PaginatedResponse } from '@/services/spacexApi';
+import { useQueries } from '@tanstack/react-query';
+import { getLaunchById } from '@/services/spacexApi';
 
 export default function Favorites() {
   const { favoriteIds, removeFavorite } = useFavoritesStore();
   const [mounted, setMounted] = useState(false);
 
-  const { data: launches, isPending, isLoading, error } = useQuery<PaginatedResponse<Launch>>({ 
-    queryKey: ['launches'], 
-    queryFn: () => getLaunches() 
+  const launchQueries = useQueries({
+    queries: favoriteIds.map((id) => ({
+      queryKey: ['launch', id],
+      queryFn: () => getLaunchById(id),
+      enabled: mounted && favoriteIds.length > 0,
+    })),
   });
 
   useEffect(() => {
@@ -26,9 +29,14 @@ export default function Favorites() {
     removeFavorite(id);
   };
 
-  const favoriteLaunches = launches?.docs?.filter(launch => favoriteIds.includes(launch.id)) || [];
+  const favoriteLaunches = launchQueries
+    .map((query) => query.data)
+    .filter((launch): launch is Launch => launch !== undefined);
+  
+  const isLoading = launchQueries.some((query) => query.isLoading || query.isPending);
+  const error = launchQueries.some((query) => query.isError);
 
-  if (!mounted || isPending || isLoading) {
+  if (!mounted || isLoading) {
     return <div className={styles.loading}>Loading your favorites...</div>;
   }
 
