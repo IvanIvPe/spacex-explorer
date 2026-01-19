@@ -6,16 +6,18 @@ import { useFavoritesStore } from '@/stores/useFavoritesStore';
 import { Launch } from '@/types/launch';
 import Button from '@/components/ui/Button';
 import styles from './Favorites.module.css';
+import { useQuery } from '@tanstack/react-query';
+import { getLaunches, PaginatedResponse } from '@/services/spacexApi';
 
-interface FavoritesProps {
-  launches: Launch[];
-}
-
-export default function Favorites({ launches }: FavoritesProps) {
+export default function Favorites() {
   const { favoriteIds, removeFavorite } = useFavoritesStore();
   const [mounted, setMounted] = useState(false);
 
-  // Prevent hydration mismatch by only rendering after client-side mount
+  const { data: launches, isPending, isLoading, error } = useQuery<PaginatedResponse<Launch>>({ 
+    queryKey: ['launches'], 
+    queryFn: () => getLaunches() 
+  });
+
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -24,10 +26,14 @@ export default function Favorites({ launches }: FavoritesProps) {
     removeFavorite(id);
   };
 
-  const favoriteLaunches = launches.filter(launch => favoriteIds.includes(launch.id));
+  const favoriteLaunches = launches?.docs?.filter(launch => favoriteIds.includes(launch.id)) || [];
 
-  if (!mounted) {
+  if (!mounted || isPending || isLoading) {
     return <div className={styles.loading}>Loading your favorites...</div>;
+  }
+
+  if (error) {
+    return <div className={styles.error}>Error loading launches. Please try again.</div>;
   }
 
   return (

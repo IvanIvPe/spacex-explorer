@@ -7,17 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [Unreleased] - 2026-01-09
+## [Unreleased] - 2026-01-19
 
 ### Added
 
-- Implemented Zustand for state management
-- Created centralized favorites store (`useFavoritesStore`)
-- Added automatic localStorage persistence for favorites using Zustand middleware
 
 ### Changed
 
 - Refactored `Favorites.tsx` to use Zustand store instead of manual localStorage management
 - Refactored `LaunchList.tsx` to use Zustand store for favorites state
-- Removed manual `useState` and `useEffect` syncing in favor of reactive Zustand store
-- Simplified favorites toggle logic across components
+- Removed server-side data fetching from `app/favorites/page.tsx`
+- Moved data fetching to client-side using React Query in `Favorites.tsx` component
