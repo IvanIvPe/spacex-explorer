@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import Link from 'next/link';
 import { useFavoritesStore } from '@/stores/useFavoritesStore';
 import { Launch } from '@/types/launch';
@@ -10,19 +10,18 @@ import { useQueries } from '@tanstack/react-query';
 import { getLaunchById } from '@/services/spacexApi';
 
 export default function Favorites() {
-  const { favoriteIds, removeFavorite } = useFavoritesStore();
-  const [mounted, setMounted] = useState(false);
+  const { favoriteIds, removeFavorite, hasHydrated, setHasHydrated } = useFavoritesStore();
 
   const launchQueries = useQueries({
     queries: favoriteIds.map((id) => ({
       queryKey: ['launch', id],
       queryFn: () => getLaunchById(id),
-      enabled: mounted && favoriteIds.length > 0,
+      enabled: hasHydrated && favoriteIds.length > 0,
     })),
   });
 
   useEffect(() => {
-    setMounted(true);
+    useFavoritesStore.persist.rehydrate();
   }, []);
 
   const handleRemove = (id: string) => {
@@ -36,7 +35,7 @@ export default function Favorites() {
   const isLoading = launchQueries.some((query) => query.isLoading || query.isPending);
   const error = launchQueries.some((query) => query.isError);
 
-  if (!mounted || isLoading) {
+  if (!hasHydrated || isLoading) {
     return <div className={styles.loading}>Loading your favorites...</div>;
   }
 
