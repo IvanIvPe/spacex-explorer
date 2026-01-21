@@ -1,21 +1,16 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
-
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-
----
-
-## [Unreleased] - 2026-01-19
+## [Unreleased] - 2026-01-21
 
 ### Added
+- Font Awesome icons and Inter font
+- Dark SpaceX-inspired theme with modern effects
+- Gradient accents, hover animations, and custom scrollbar
 
-- Added consistent sorting to `getLaunchesByIds` function (sorts by date_utc in descending order)
-- Added retry functionality to favorites error state with a dedicated retry button
-- Added improved empty state in favorites error handling with link to browse launches
+### Changed
+
+- Redesigned navbar, buttons, cards, and filters with dark styling
 
 ### Fixed
-
-- Fixed inconsistent ordering of favorite launches in the UI by adding sort option to API query
-- Improved error handling in Favorites component - users can now retry fetching or navigate to browse launches instead of being stuck on error message
+- Select dropdown arrow glitch
+- Button-inside-button styling on home page
