@@ -8,7 +8,7 @@
   font-size: 2rem;
   font-weight: 700;
   margin-bottom: 0.5rem;
-  color: #ffffff;
+  color: var(--spacex-white);
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -56,8 +56,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
   border-radius: 16px;
   padding: 1.5rem;
   transition: all 0.3s ease;
@@ -96,7 +96,7 @@
 .cardInfo h2 {
   font-size: 1.2rem;
   font-weight: 600;
-  color: #ffffff;
+  color: var(--spacex-white);
   margin: 0 0 0.5rem 0;
   display: flex;
   align-items: center;
@@ -113,7 +113,7 @@
 
 .cardDate {
   font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--spacex-muted);
   margin: 0 0 0.35rem 0;
   display: flex;
   align-items: center;
@@ -183,10 +183,10 @@
 .emptyState {
   text-align: center;
   padding: 5rem 2rem;
-  background: rgba(255, 255, 255, 0.02);
-  border: 2px dashed rgba(255, 255, 255, 0.1);
+  background: var(--glass-bg);
+  border: 2px dashed var(--glass-border);
   border-radius: 20px;
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--spacex-muted);
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
@@ -211,7 +211,7 @@
 .loading {
   text-align: center;
   padding: 4rem;
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--spacex-muted);
   display: flex;
   flex-direction: column;
   align-items: center;

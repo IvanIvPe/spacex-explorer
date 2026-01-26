@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import styles from './LaunchDetails.module.css';
 import { LaunchDetail } from '@/types/launch';
+import ImageGallery from '@/components/ui/ImageGallery';
 
 interface LaunchDetailsProps {
     launch: LaunchDetail;
@@ -47,21 +48,10 @@ export default function LaunchDetails({ launch }: LaunchDetailsProps) {
 
             <div className={styles.section}>
                 <h2>Gallery</h2>
-                {launch.links?.flickr?.original && launch.links.flickr.original.length > 0 ? (
-                    <div className={styles.gallery}>
-                        {launch.links.flickr.original.map((url, idx) => (
-                            <img
-                                key={idx}
-                                src={url}
-                                alt={`${launch.name} - Image ${idx + 1}`}
-                                className={styles.galleryImage}
-                                loading="lazy"
-                            />
-                        ))}
-                    </div>
-                ) : (
-                    <p className={styles.noImages}>There are currently no pictures for this launch.</p>
-                )}
+                <ImageGallery 
+                    images={launch.links?.flickr?.original || []} 
+                    altPrefix={launch.name} 
+                />
             </div>
 
             {launch.rocket && (

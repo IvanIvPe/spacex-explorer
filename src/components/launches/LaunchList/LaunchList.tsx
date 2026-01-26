@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Button from '@/components/ui/Button';
@@ -20,6 +20,7 @@ interface LaunchListProps {
         sortBy?: string;
         startDate?: string;
         endDate?: string;
+        hasPictures?: string;
     };
 }
 
@@ -28,6 +29,8 @@ export default function LaunchList({ paginatedData, currentParams }: LaunchListP
     const searchParams = useSearchParams();
     const favoriteIds = useFavoritesStore(state => state.favoriteIds);
     const toggleFavorite = useFavoritesStore(state => state.toggleFavorite);
+    const formRef = useRef<HTMLFormElement>(null);
+    const searchInputRef = useRef<HTMLInputElement>(null);
 
     const handleToggleFavorite = (e: React.MouseEvent, id: string) => {
         e.preventDefault();
@@ -57,6 +60,7 @@ export default function LaunchList({ paginatedData, currentParams }: LaunchListP
         const sortBy = formData.get('sortBy') as string;
         const startDate = formData.get('startDate') as string;
         const endDate = formData.get('endDate') as string;
+        const hasPictures = formData.get('hasPictures') as string;
 
         if (timeline !== 'all') {
             params.set('timeline', timeline);
@@ -88,6 +92,12 @@ export default function LaunchList({ paginatedData, currentParams }: LaunchListP
             params.delete('endDate');
         }
         
+        if (hasPictures !== 'all') {
+            params.set('hasPictures', hasPictures);
+        } else {
+            params.delete('hasPictures');
+        }
+        
         params.set('limit', '5');
         params.delete('page');
         
@@ -104,14 +114,27 @@ export default function LaunchList({ paginatedData, currentParams }: LaunchListP
         router.push(`/launches?${params.toString()}`, { scroll: false });
     };
 
+    const resetFilters = () => {
+        if (formRef.current) {
+            formRef.current.reset();
+        }
+        if (searchInputRef.current) {
+            searchInputRef.current.value = '';
+        }
+        router.push('/launches');
+    };
+
+    const hasActiveFilters = !!(currentParams.search || currentParams.timeline || currentParams.status || currentParams.sortBy || currentParams.startDate || currentParams.endDate || currentParams.hasPictures);
+
     return (
         <div className={styles.launchListContainer}>
             <h1>SpaceX Launches</h1>
 
             <div className={styles.filtersContainer}>
-                <div className={styles.filterGroup}>
+                <div className={`${styles.filterGroup} ${styles.searchContainer}`}>
                     <label htmlFor="search">Search</label>
                     <input 
+                        ref={searchInputRef}
                         id="search"
                         type="text"
                         name="search"
@@ -122,17 +145,28 @@ export default function LaunchList({ paginatedData, currentParams }: LaunchListP
                     />
                 </div>
 
-                <form className={styles.filters} onSubmit={(e) => {
+                <form ref={formRef} className={styles.filters} onSubmit={(e) => {
                     e.preventDefault();
                     updateFilters(new FormData(e.currentTarget));
                 }}>
-                <div className={styles.filterGroup}>
-                    <label htmlFor="timeline">Timeline</label>
-                    <select id="timeline" name="timeline" defaultValue={currentParams.timeline || 'all'}>
-                        <option value="all">All Timeline</option>
-                        <option value="upcoming">Upcoming</option>
-                        <option value="past">Past</option>
-                    </select>
+                <div className={styles.filterRow}>
+                    <div className={styles.filterGroup}>
+                        <label htmlFor="timeline">Timeline</label>
+                        <select id="timeline" name="timeline" defaultValue={currentParams.timeline || 'all'}>
+                            <option value="all">All Timeline</option>
+                            <option value="upcoming">Upcoming</option>
+                            <option value="past">Past</option>
+                        </select>
+                    </div>
+
+                    <div className={styles.filterGroup}>
+                        <label htmlFor="hasPictures">Has Pictures</label>
+                        <select id="hasPictures" name="hasPictures" defaultValue={currentParams.hasPictures || 'all'}>
+                            <option value="all">All Launches</option>
+                            <option value="yes">With Pictures</option>
+                            <option value="no">Without Pictures</option>
+                        </select>
+                    </div>
                 </div>
 
                 <div className={styles.filterGroup}>
@@ -174,9 +208,14 @@ export default function LaunchList({ paginatedData, currentParams }: LaunchListP
                     />
                 </div>
                 
-                <Button type="submit" variant="primary">
-                    Apply Filters
-                </Button>
+                <div className={styles.filterActions}>
+                    <Button type="submit" variant="primary">
+                        Apply Filters
+                    </Button>
+                    <Button type="button" variant="secondary" onClick={resetFilters}>
+                        Reset
+                    </Button>
+                </div>
             </form>
             </div>
 

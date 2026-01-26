@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import ThemeToggle from "@/components/ui/ThemeToggle";
 import styles from "./Navbar.module.css";
 
 export default function Navbar() {
@@ -10,7 +11,8 @@ export default function Navbar() {
                 SpaceX Explorer
             </Link>
 
-            <ul className={styles.navList}>
+            <div className={styles.navRight}>
+                <ul className={styles.navList}>
                 <li>
                     <Link href="/" className={styles.navLink}>
                         Home
@@ -26,7 +28,9 @@ export default function Navbar() {
                         Favorites
                     </Link>
                 </li>
-            </ul>
+                </ul>
+                <ThemeToggle />
+            </div>
         </nav>
     );
 }
