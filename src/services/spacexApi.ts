@@ -88,3 +88,19 @@ export const getLaunchById = async (id: string) => {
     const response = await axiosInstance.get(`/launches/${id}`);
     return response.data;
 };
+
+export const getLaunchesByIds = async (ids: string[]) => {
+    if (ids.length === 0) return [];
+    
+    const response = await axiosInstance.post('/launches/query', {
+        query: {
+            _id: { $in: ids }
+        },
+        options: {
+            pagination: false,
+            sort: { date_utc: -1 },
+        },
+    });
+    
+    return response.data.docs;
+};

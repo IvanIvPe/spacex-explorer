@@ -1,34 +1,47 @@
 'use client';
-
-import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { getFavorites, toggleFavorite } from '@/lib/localStorage';
+import { useFavoritesStore } from '@/stores/useFavoritesStore';
 import { Launch } from '@/types/launch';
 import Button from '@/components/ui/Button';
 import styles from './Favorites.module.css';
+import { useQuery } from '@tanstack/react-query';
+import { getLaunchesByIds } from '@/services/spacexApi';
 
-interface FavoritesProps {
-  launches: Launch[];
-}
+export default function Favorites() {
+  const { favoriteIds, removeFavorite, hasHydrated } = useFavoritesStore();
 
-export default function Favorites({ launches }: FavoritesProps) {
-  const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
-  const [isLoaded, setIsLoaded] = useState(false);
-
-  useEffect(() => {
-    setFavoriteIds(getFavorites());
-    setIsLoaded(true);
-  }, []);
+  const { data: favoriteLaunches = [], isLoading, isError, refetch } = useQuery<Launch[]>({
+    queryKey: ['favorites', favoriteIds],
+    queryFn: () => 
+      favoriteIds.length > 0 ? getLaunchesByIds(favoriteIds) : Promise.resolve([]) as Promise<Launch[]>,
+    enabled: hasHydrated,
+  });
 
   const handleRemove = (id: string) => {
-    const newFavorites = toggleFavorite(id);
-    setFavoriteIds(newFavorites);
+    removeFavorite(id);
   };
-
-  const favoriteLaunches = launches.filter(launch => favoriteIds.includes(launch.id));
-
-  if (!isLoaded) {
+  
+  if (!hasHydrated || isLoading) {
     return <div className={styles.loading}>Loading your favorites...</div>;
+  }
+
+  if (isError) {
+    return (
+      <div className={styles.container}>
+        <h1>Your Favorite Launches</h1>
+        <div className={styles.emptyState}>
+          <p>Error loading your favorite launches.</p>
+          <div className={styles.actions}>
+            <Button onClick={() => refetch()} variant="primary">
+              Retry
+            </Button>
+            <Link href="/launches" className={styles.link}>
+              Browse Launches
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (

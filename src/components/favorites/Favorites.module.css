@@ -82,3 +82,11 @@
   padding: 3rem;
   color: #6b7280;
 }
+
+.error {
+  text-align: center;
+  padding: 3rem;
+  color: #dc2626;
+  background-color: #fef2f2;
+  border-radius: 0.5rem;
+}
