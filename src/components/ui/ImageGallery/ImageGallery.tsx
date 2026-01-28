@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import styles from './ImageGallery.module.css';
 
@@ -11,15 +11,17 @@ interface ImageGalleryProps {
 
 export default function ImageGallery({ images, altPrefix }: ImageGalleryProps) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const previousActiveElement = useRef<HTMLElement | null>(null);
 
   const openLightbox = (index: number) => {
+    previousActiveElement.current = document.activeElement as HTMLElement;
     setSelectedIndex(index);
-    document.body.style.overflow = 'hidden';
   };
 
   const closeLightbox = useCallback(() => {
     setSelectedIndex(null);
-    document.body.style.overflow = '';
+    previousActiveElement.current?.focus();
   }, []);
 
   const goToPrevious = useCallback(() => {
@@ -33,9 +35,14 @@ export default function ImageGallery({ images, altPrefix }: ImageGalleryProps) {
   }, [selectedIndex, images.length]);
 
   useEffect(() => {
+    if (selectedIndex === null) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    closeButtonRef.current?.focus();
+
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (selectedIndex === null) return;
-      
       switch (e.key) {
         case 'Escape':
           closeLightbox();
@@ -46,13 +53,28 @@ export default function ImageGallery({ images, altPrefix }: ImageGalleryProps) {
         case 'ArrowRight':
           goToNext();
           break;
+        case 'Tab':
+          const focusableElements = document.querySelectorAll(
+            `.${styles.lightbox} button`
+          );
+          const firstElement = focusableElements[0] as HTMLElement;
+          const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
+
+          if (e.shiftKey && document.activeElement === firstElement) {
+            e.preventDefault();
+            lastElement.focus();
+          } else if (!e.shiftKey && document.activeElement === lastElement) {
+            e.preventDefault();
+            firstElement.focus();
+          }
+          break;
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = '';
+      document.body.style.overflow = previousOverflow;
     };
   }, [selectedIndex, closeLightbox, goToPrevious, goToNext]);
 
@@ -91,11 +113,18 @@ export default function ImageGallery({ images, altPrefix }: ImageGalleryProps) {
       </div>
 
       {selectedIndex !== null && (
-        <div className={styles.lightbox} onClick={closeLightbox}>
+        <div 
+          className={styles.lightbox} 
+          onClick={closeLightbox}
+          role="dialog"
+          aria-modal="true"
+          aria-label={`${altPrefix} - Image ${selectedIndex + 1} of ${images.length}`}
+        >
           <button
+            ref={closeButtonRef}
             className={styles.closeButton}
             onClick={closeLightbox}
-            aria-label="Close lightbox"
+            aria-label="Close image viewer"
           >
           </button>
 
@@ -121,7 +150,7 @@ export default function ImageGallery({ images, altPrefix }: ImageGalleryProps) {
               className={styles.lightboxImage}
               priority
             />
-            <div className={styles.imageCounter}>
+            <div className={styles.imageCounter} aria-live="polite">
               {selectedIndex + 1} / {images.length}
             </div>
           </div>

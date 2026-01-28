@@ -103,23 +103,3 @@
   }
 }
 
-.skeleton {
-  background: linear-gradient(
-    90deg,
-    var(--glass-bg) 25%,
-    var(--glass-border) 50%,
-    var(--glass-bg) 75%
-  );
-  background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
-  border-radius: 8px;
-}
-
-@keyframes shimmer {
-  0% {
-    background-position: 200% 0;
-  }
-  100% {
-    background-position: -200% 0;
-  }
-}

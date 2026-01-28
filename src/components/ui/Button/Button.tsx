@@ -1,30 +1,36 @@
 import React, { forwardRef } from 'react';
 import styles from './Button.module.css';
 
-function Slot({ 
-  children, 
-  ...props 
-}: React.HTMLAttributes<HTMLElement> & { children: React.ReactNode }) {
-  if (React.isValidElement(children)) {
-    return React.cloneElement(children, {
-      ...props,
-      ...children.props,
-      className: [props.className, children.props.className].filter(Boolean).join(' '),
-    });
+interface SlotProps {
+  children: React.ReactNode;
+  className?: string;
+  [key: string]: unknown;
+}
+
+function Slot({ children, ...props }: SlotProps) {
+  if (!React.isValidElement(children)) {
+    console.warn('Slot: Expected a single valid React element as child');
+    return <>{children}</>;
   }
-  
+
   if (React.Children.count(children) > 1) {
-    React.Children.only(null);
+    throw new Error('Slot component expects exactly one child element');
   }
+
+  const childProps = children.props as Record<string, unknown>;
   
-  return null;
+  return React.cloneElement(children, {
+    ...props,
+    ...childProps,
+    className: [props.className, childProps.className].filter(Boolean).join(' '),
+    ref: (props as { ref?: React.Ref<unknown> }).ref ?? (children as { ref?: React.Ref<unknown> }).ref,
+  } as React.Attributes);
 }
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'removeButton' | 'favorite';
   children: React.ReactNode;
   isFavorite?: boolean;
-
   asChild?: boolean;
 }
 
@@ -41,7 +47,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
 
   if (asChild) {
     return (
-      <Slot className={combinedClassName} {...props}>
+      <Slot className={combinedClassName} ref={ref} {...props}>
         {children}
       </Slot>
     );

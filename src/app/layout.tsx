@@ -10,7 +10,6 @@ const inter = Inter({
   subsets: ['latin'],
   weight: ['500', '600', '700', '800'],
   display: 'swap',
-  variable: '--font-inter',
 });
 
 const themeInitScript = `
@@ -39,7 +38,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={inter.variable} suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <Script id="theme-init" strategy="beforeInteractive">
           {themeInitScript}
