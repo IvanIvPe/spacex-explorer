@@ -1,6 +1,22 @@
 # Changelog
 
-## [Unreleased] - 2026-01-26
+## [Unreleased] - 2026-01-28
+
+### Added
+- System theme detection (respects user's OS dark/light mode preference)
+- Polymorphic Button component with `asChild` pattern
+- Inter font optimization via `next/font/google`
+
+### Changed
+- Replaced `dangerouslySetInnerHTML` with Next.js `Script` component for security
+- Improved SSR compatibility with no-op storage fallback
+
+### Fixed
+- Theme flash on page load (FOUC prevention)
+- Invalid HTML nesting (button inside anchor) on home page
+- Debounced search firing after filter reset
+
+## [Previous] - 2026-01-26
 
 ### Added
 - Font Awesome icons and Inter font

@@ -4,10 +4,11 @@ import QueryProvider from "@/providers/QueryProvider";
 import "./globals.css";
 import React from "react";
 import { Inter } from 'next/font/google';
+import Script from 'next/script';
 
 const inter = Inter({ 
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700', '800'],
+  weight: ['500', '600', '700', '800'],
   display: 'swap',
   variable: '--font-inter',
 });
@@ -39,10 +40,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={inter.variable} suppressHydrationWarning>
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
-      </head>
       <body className={inter.className}>
+        <Script id="theme-init" strategy="beforeInteractive">
+          {themeInitScript}
+        </Script>
         <QueryProvider>
           <Nav />
           <main>
