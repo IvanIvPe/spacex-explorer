@@ -152,8 +152,11 @@
   padding-right: 40px;
 }
 
-[data-theme='light'] .filters select {
+:global([data-theme='light']) .filters select {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 16 16'%3E%3Cpath fill='%236b6b6b' d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 12px;
 }
 
 .filters select:focus {
@@ -162,7 +165,14 @@
 
 .filters select option {
   background: var(--spacex-gray);
+  background-image: none;
   color: var(--spacex-white);
+}
+
+:global([data-theme='light']) .filters select option {
+  background: var(--spacex-white);
+  background-image: none;
+  color: var(--spacex-dark);
 }
 
 .launchList {
