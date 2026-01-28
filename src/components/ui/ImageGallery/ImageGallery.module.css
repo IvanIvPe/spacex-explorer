@@ -96,6 +96,12 @@
   z-index: 10;
 }
 
+.closeButton::before {
+  content: '\f00d';
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
+}
+
 .closeButton:hover {
   background: rgba(255, 255, 255, 0.2);
   transform: scale(1.1);
@@ -129,8 +135,20 @@
   left: 20px;
 }
 
+.prevButton::before {
+  content: '\f053';
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
+}
+
 .nextButton {
   right: 20px;
+}
+
+.nextButton::before {
+  content: '\f054';
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
 }
 
 .lightboxContent {

@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { persist, createJSONStorage } from 'zustand/middleware';
+import { persist, createJSONStorage, type StateStorage } from 'zustand/middleware';
 
 type Theme = 'light' | 'dark';
 
@@ -11,10 +11,30 @@ interface ThemeState {
   toggleTheme: () => void;
 }
 
+const getSystemTheme = (): Theme => {
+  if (typeof window === 'undefined') return 'dark';
+  
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  return prefersDark ? 'dark' : 'light';
+};
+
+const noopStorage: StateStorage = {
+  getItem: () => null,
+  setItem: () => {},
+  removeItem: () => {},
+};
+
+const getStorage = () => {
+  if (typeof window === 'undefined') {
+    return noopStorage;
+  }
+  return window.localStorage;
+};
+
 export const useThemeStore = create<ThemeState>()(
   persist(
-    (set, get) => ({
-      theme: 'dark',
+    (set) => ({
+      theme: getSystemTheme(),
       hasHydrated: false,
       setHasHydrated: (hydrated: boolean) => set({ hasHydrated: hydrated }),
       
@@ -27,10 +47,7 @@ export const useThemeStore = create<ThemeState>()(
     }),
     {
       name: 'spacex_theme',
-      storage:
-        typeof window !== 'undefined'
-          ? createJSONStorage(() => window.localStorage)
-          : undefined,
+      storage: createJSONStorage(getStorage),
       partialize: (state) => ({ theme: state.theme }),
       skipHydration: true,
       onRehydrateStorage: () => (state, error) => {

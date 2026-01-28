@@ -50,7 +50,10 @@ export default function ImageGallery({ images, altPrefix }: ImageGalleryProps) {
     };
 
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = '';
+    };
   }, [selectedIndex, closeLightbox, goToPrevious, goToNext]);
 
   if (!images || images.length === 0) {
@@ -94,7 +97,6 @@ export default function ImageGallery({ images, altPrefix }: ImageGalleryProps) {
             onClick={closeLightbox}
             aria-label="Close lightbox"
           >
-            ✕
           </button>
 
           <button
@@ -105,7 +107,6 @@ export default function ImageGallery({ images, altPrefix }: ImageGalleryProps) {
             }}
             aria-label="Previous image"
           >
-            ‹
           </button>
 
           <div
@@ -133,7 +134,6 @@ export default function ImageGallery({ images, altPrefix }: ImageGalleryProps) {
             }}
             aria-label="Next image"
           >
-            ›
           </button>
         </div>
       )}

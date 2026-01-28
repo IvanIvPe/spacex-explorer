@@ -43,6 +43,12 @@
   animation: float 3s ease-in-out infinite;
 }
 
+.rocketIcon::before {
+  content: '\f135';
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
+}
+
 @keyframes float {
 
   0%,

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Button from '@/components/ui/Button';
@@ -115,6 +115,7 @@ export default function LaunchList({ paginatedData, currentParams }: LaunchListP
     };
 
     const resetFilters = () => {
+        handleSearch.cancel();
         if (formRef.current) {
             formRef.current.reset();
         }
@@ -123,8 +124,6 @@ export default function LaunchList({ paginatedData, currentParams }: LaunchListP
         }
         router.push('/launches');
     };
-
-    const hasActiveFilters = !!(currentParams.search || currentParams.timeline || currentParams.status || currentParams.sortBy || currentParams.startDate || currentParams.endDate || currentParams.hasPictures);
 
     return (
         <div className={styles.launchListContainer}>

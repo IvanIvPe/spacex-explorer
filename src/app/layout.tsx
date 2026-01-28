@@ -3,6 +3,34 @@ import Nav from "@/components/layout/Navbar/Navbar";
 import QueryProvider from "@/providers/QueryProvider";
 import "./globals.css";
 import React from "react";
+import { Inter } from 'next/font/google';
+
+const inter = Inter({ 
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700', '800'],
+  display: 'swap',
+  variable: '--font-inter',
+});
+
+const themeInitScript = `
+(function() {
+  try {
+    var stored = localStorage.getItem('spacex_theme');
+    var theme = 'dark';
+    if (stored) {
+      var parsed = JSON.parse(stored);
+      if (parsed.state && parsed.state.theme) {
+        theme = parsed.state.theme;
+      }
+    } else {
+      theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    document.documentElement.setAttribute('data-theme', theme);
+  } catch (e) {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  }
+})();
+`;
 
 export default function RootLayout({
   children,
@@ -10,8 +38,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body>
+    <html lang="en" className={inter.variable} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
+      <body className={inter.className}>
         <QueryProvider>
           <Nav />
           <main>
