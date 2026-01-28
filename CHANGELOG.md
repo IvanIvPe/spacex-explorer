@@ -19,3 +19,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Fixed inconsistent ordering of favorite launches in the UI by adding sort option to API query
 - Improved error handling in Favorites component - users can now retry fetching or navigate to browse launches instead of being stuck on error message
+
+---
+
+## [Unreleased] - 2025-12-29
+
+### Added
+
+- Implemented debounced search input (500ms) that automatically updates URL query parameters in real-time without requiring form submission.
+
+### Changed
+
+- Separated search functionality from other filters - search now updates instantly with debounce, while timeline, status, sort, and date filters remain on the "Apply Filters" button.
+- Modified `updateFilters` function to preserve search parameter from URL when applying other filters, ensuring independent filter management.
