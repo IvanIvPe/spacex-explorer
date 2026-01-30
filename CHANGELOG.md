@@ -1,6 +1,16 @@
 # Changelog
 
-## [Unreleased] - 2026-01-28
+## [Unreleased] - 2026-01-30
+
+### Added
+- Local Font Awesome package (`@fortawesome/fontawesome-free`)
+- Font files served from public/webfonts directory
+
+### Changed
+- Replaced Font Awesome CDN import with local `@font-face` declarations
+- Improved offline support and faster icon loading
+
+## [Previous] - 2026-01-28
 
 ### Added
 - System theme detection (respects user's OS dark/light mode preference)
