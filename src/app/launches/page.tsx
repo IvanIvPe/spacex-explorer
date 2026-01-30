@@ -9,6 +9,7 @@ interface SearchParams {
     sortBy?: string;
     startDate?: string;
     endDate?: string;
+    hasPictures?: string;
 }
 
 export default async function LaunchListPage(props: {
@@ -28,6 +29,7 @@ export default async function LaunchListPage(props: {
         order: order === 'asc' ? 'asc' : 'desc',
         startDate: params.startDate,
         endDate: params.endDate,
+        hasPictures: params.hasPictures,
         limit,
     });
     

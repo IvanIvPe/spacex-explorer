@@ -17,6 +17,7 @@ export interface LaunchParams {
     status?: string;
     startDate?: string;
     endDate?: string;
+    hasPictures?: string;
 }
 
 export interface PaginatedResponse<T> {
@@ -40,6 +41,7 @@ interface LaunchQuery {
         $gte?: string;
         $lte?: string;
     };
+    'links.flickr.original.0'?: { $exists: boolean };
 }
 
 export const getLaunches = async (params?: LaunchParams) => {
@@ -69,6 +71,12 @@ export const getLaunches = async (params?: LaunchParams) => {
         if (params.endDate) {
             query.date_utc.$lte = params.endDate;
         }
+    }
+
+    if (params?.hasPictures === 'yes') {
+        query['links.flickr.original.0'] = { $exists: true };
+    } else if (params?.hasPictures === 'no') {
+        query['links.flickr.original.0'] = { $exists: false };
     }
 
     const response = await axiosInstance.post('/launches/query', {

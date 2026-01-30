@@ -6,7 +6,9 @@ export default function Home() {
   return (
     <main className={styles.main}>
       <h1>Welcome to SpaceX Explorer</h1>
-      <Link href="/launches" className={styles.link}> <Button variant="primary">Go to Launch List</Button> </Link>
+      <Button asChild variant="primary">
+        <Link href="/launches">Go to Launch List</Link>
+      </Button>
     </main>
   );
 }
