@@ -30,6 +30,33 @@ export interface PaginatedResponse<T> {
     hasPrevPage: boolean;
 }
 
+export interface CompanyInfo {
+    name: string;
+    founder: string;
+    founded: number;
+    employees: number;
+    vehicles: number;
+    launch_sites: number;
+    test_sites: number;
+    ceo: string;
+    cto: string;
+    coo: string;
+    cto_propulsion: string;
+    valuation: number;
+    headquarters: {
+        address: string;
+        city: string;
+        state: string;
+    };
+    links: {
+        website: string;
+        flickr: string;
+        twitter: string;
+        elon_twitter: string;
+    };
+    summary: string;
+}
+
 interface LaunchQuery {
     name?: {
         $regex: string;
@@ -111,4 +138,31 @@ export const getLaunchesByIds = async (ids: string[]) => {
     });
     
     return response.data.docs;
+};
+
+export const getCompanyInfo = async () => {
+    const response = await axiosInstance.get<CompanyInfo>('/company');
+    return response.data;
+};
+
+export const getLaunchStats = async () => {
+    const [launches, landings, reflights] = await Promise.all([
+        axiosInstance.post('/launches/query', {
+            options: { limit: 1, select: 'id' }
+        }),
+        axiosInstance.post('/launches/query', {
+            query: { "cores.landing_success": true },
+            options: { limit: 1, select: 'id' }
+        }),
+        axiosInstance.post('/launches/query', {
+            query: { "cores.flight": { $gt: 1 } },
+            options: { limit: 1, select: 'id' }
+        })
+    ]);
+
+    return {
+        totalLaunches: launches.data.totalDocs,
+        totalLandings: landings.data.totalDocs,
+        totalReflights: reflights.data.totalDocs
+    };
 };

@@ -1,6 +1,18 @@
 # Changelog
 
-## [Unreleased] - 2026-01-30
+
+
+## [Unreleased] - 2026-02-2
+
+### Added
+- Dynamic Footer with real-time SpaceX API data
+  - Company information (Summary, Founder, HQ)
+  - Live statistics (Total Launches, Vehicles, Launch Sites)
+
+### Changed 
+- Refactored Footer component to be asynchronous and fetch live data instead of using hardcoded values
+
+## [Previous] - 2026-01-30
 
 ### Added
 - Local Font Awesome package (`@fortawesome/fontawesome-free`)
