@@ -6,7 +6,11 @@ import { Rocket } from "lucide-react";
 
 export default async function Footer() {
     const currentYear = new Date().getFullYear();
-    const stats = await getLaunchStats();
+    const stats = await getLaunchStats().catch(() => ({
+        totalLaunches: 0,
+        totalLandings: 0,
+        totalReflights: 0,
+    }));
 
     return (
         <footer className={styles.footer}>
