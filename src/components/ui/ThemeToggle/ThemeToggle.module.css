@@ -1,0 +1,43 @@
+.toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: var(--border-radius-md);
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  border: 1px solid var(--glass-border);
+}
+
+.toggle:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: scale(1.05);
+}
+
+.toggle:active {
+  transform: scale(0.95);
+}
+
+.sunIcon {
+  color: #fbbf24;
+}
+
+.moonIcon {
+  color: #a5b4fc;
+}
+
+.placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--border-radius-md);
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+}

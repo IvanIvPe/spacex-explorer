@@ -1,29 +1,33 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import styles from './Button.module.css';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'removeButton' | 'favorite';
-  children: React.ReactNode;
   isFavorite?: boolean;
 }
 
-const Button: React.FC<ButtonProps> = ({ 
-  variant = 'primary', 
-  children, 
-  className = '',
+const Button = ({
+  variant = 'primary',
   isFavorite = false,
-  ...props 
-}) => {
+  className,
+  ...props
+}: ButtonProps) => {
   const favoriteClass = variant === 'favorite' && isFavorite ? styles.favoriteActive : '';
+  const combinedClassName = [
+    styles.button,
+    styles[variant],
+    favoriteClass,
+    className
+  ].filter(Boolean).join(' ');
   
   return (
     <button 
-      className={`${styles.button} ${styles[variant]} ${favoriteClass} ${className}`}
+      className={combinedClassName}
       {...props}
-    >
-      {children}
-    </button>
+    />
   );
 };
+
+Button.displayName = 'Button';
 
 export default Button;

@@ -1,34 +1,74 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
-
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-
----
-
-## [Unreleased] - 2026-01-19
-
-### Added
-
-- Added consistent sorting to `getLaunchesByIds` function (sorts by date_utc in descending order)
-- Added retry functionality to favorites error state with a dedicated retry button
-- Added improved empty state in favorites error handling with link to browse launches
-
-### Fixed
-
-- Fixed inconsistent ordering of favorite launches in the UI by adding sort option to API query
-- Improved error handling in Favorites component - users can now retry fetching or navigate to browse launches instead of being stuck on error message
-
----
-
-## [Unreleased] - 2025-12-29
-
-### Added
-
-- Implemented debounced search input (500ms) that automatically updates URL query parameters in real-time without requiring form submission.
+## [Unreleased] - 2026-02-03
 
 ### Changed
+- Replaced Font Awesome icons with Lucide React icons throughout the application
+- Removed all Font Awesome packages and webfonts
+- Updated all components to use inline Lucide SVG icons instead of CSS pseudo-elements
 
-- Separated search functionality from other filters - search now updates instantly with debounce, while timeline, status, sort, and date filters remain on the "Apply Filters" button.
-- Modified `updateFilters` function to preserve search parameter from URL when applying other filters, ensuring independent filter management.
+## [Previous] - 2026-02-02
+
+### Added
+- Dynamic Footer with real-time SpaceX API data
+  - Company information (Summary, Founder, HQ)
+  - Live statistics (Total Launches, Vehicles, Launch Sites)
+
+### Changed 
+- Refactored Footer component to be asynchronous and fetch live data instead of using hardcoded values
+
+## [Previous] - 2026-01-30
+
+### Added
+- Local Font Awesome package (`@fortawesome/fontawesome-free`)
+- Font files served from public/webfonts directory
+
+### Changed
+- Replaced Font Awesome CDN import with local `@font-face` declarations
+- Improved offline support and faster icon loading
+
+## [Previous] - 2026-01-28
+
+### Added
+- System theme detection (respects user's OS dark/light mode preference)
+- Polymorphic Button component with `asChild` pattern
+- Inter font optimization via `next/font/google`
+
+### Changed
+- Replaced `dangerouslySetInnerHTML` with Next.js `Script` component for security
+- Improved SSR compatibility with no-op storage fallback
+
+### Fixed
+- Theme flash on page load (FOUC prevention)
+- Invalid HTML nesting (button inside anchor) on home page
+- Debounced search firing after filter reset
+
+## [Previous] - 2026-01-26
+
+### Added
+- Font Awesome icons and Inter font
+- Dark SpaceX-inspired theme with modern effects
+- Gradient accents, hover animations, and custom scrollbar
+- Dark/Light mode toggle with persistent preference (localStorage)
+- Theme store using Zustand for state management
+- ThemeToggle component in navbar
+- CSS variables for theme-aware colors across all components
+- ImageGallery component with lightbox/modal for full-screen viewing
+  - Keyboard navigation (arrow keys, escape)
+  - Image counter and smooth animations
+  - Responsive design with touch support
+- Reset Filters button to clear all filters and search
+- "Has Pictures" filter to show only launches with/without images
+
+### Changed
+- Redesigned navbar, buttons, cards, and filters with dark styling
+- Updated all components to use CSS variables for theme support:
+  - Navbar, Footer, LaunchList, LaunchDetails, Favorites
+  - Button, Loading, Error components
+- Improved favorite star visibility in both themes
+
+### Fixed
+- Select dropdown arrow glitch
+- Button-inside-button styling on home page
+- Loading spinner and text visibility in light mode
+- Error message visibility in light mode

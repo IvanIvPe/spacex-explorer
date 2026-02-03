@@ -4,6 +4,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import styles from './LaunchDetails.module.css';
 import { LaunchDetail } from '@/types/launch';
+import ImageGallery from '@/components/ui/ImageGallery';
+import { ArrowLeft, Rocket, Image as ImageIcon, Check, X } from 'lucide-react';
 
 interface LaunchDetailsProps {
     launch: LaunchDetail;
@@ -14,9 +16,30 @@ export default function LaunchDetails({ launch }: LaunchDetailsProps) {
         return <div className={styles.container}>Launch data not available.</div>;
     }
 
+    const getStatusBadge = () => {
+        if (launch.upcoming) {
+            return <span className={styles.upcoming}>Upcoming</span>;
+        }
+        if (launch.success) {
+            return (
+                <span className={styles.success}>
+                    <Check size={14} />
+                    Successful
+                </span>
+            );
+        }
+        return (
+            <span className={styles.failure}>
+                <X size={14} />
+                Failed
+            </span>
+        );
+    };
+
     return (
         <div className={styles.container}>
             <Link href="/launches" className={styles.backLink}>
+                <ArrowLeft size={16} />
                 Back to Launches
             </Link>
 
@@ -33,10 +56,13 @@ export default function LaunchDetails({ launch }: LaunchDetailsProps) {
                 )}
             </div>
 
-            <h1>{launch.name}</h1>
+            <h1>
+                <Rocket className={styles.headerIcon} size={28} />
+                {launch.name}
+            </h1>
             <p><strong>Flight Number:</strong> {launch.flight_number}</p>
             <p><strong>Date:</strong> {new Date(launch.date_utc).toLocaleString('en-US', { timeZone: 'UTC' })}</p>
-            <p><strong>Status:</strong> {launch.upcoming ? 'Upcoming' : launch.success ? 'Successful' : 'Failed'}</p>
+            <p><strong>Status:</strong> {getStatusBadge()}</p>
 
             {launch.details && (
                 <div className={styles.section}>
@@ -46,22 +72,14 @@ export default function LaunchDetails({ launch }: LaunchDetailsProps) {
             )}
 
             <div className={styles.section}>
-                <h2>Gallery</h2>
-                {launch.links?.flickr?.original && launch.links.flickr.original.length > 0 ? (
-                    <div className={styles.gallery}>
-                        {launch.links.flickr.original.map((url, idx) => (
-                            <img
-                                key={idx}
-                                src={url}
-                                alt={`${launch.name} - Image ${idx + 1}`}
-                                className={styles.galleryImage}
-                                loading="lazy"
-                            />
-                        ))}
-                    </div>
-                ) : (
-                    <p className={styles.noImages}>There are currently no pictures for this launch.</p>
-                )}
+                <h2>
+                    <ImageIcon className={styles.sectionIcon} size={20} />
+                    Gallery
+                </h2>
+                <ImageGallery 
+                    images={launch.links?.flickr?.original || []} 
+                    altPrefix={launch.name} 
+                />
             </div>
 
             {launch.rocket && (

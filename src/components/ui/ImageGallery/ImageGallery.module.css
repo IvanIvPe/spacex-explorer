@@ -1,0 +1,197 @@
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.thumbnailButton {
+  position: relative;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  border-radius: 12px;
+  overflow: hidden;
+  aspect-ratio: 4/3;
+}
+
+.thumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+}
+
+.thumbnailOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: 12px;
+}
+
+.thumbnailButton:hover .thumbnail {
+  transform: scale(1.05);
+}
+
+.thumbnailButton:hover .thumbnailOverlay {
+  opacity: 1;
+}
+
+.zoomIcon {
+  color: white;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.closeButton {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 48px;
+  height: 48px;
+  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.closeButton:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.1);
+}
+
+.navButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 56px;
+  height: 56px;
+  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.navButton:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.prevButton {
+  left: 20px;
+}
+
+.nextButton {
+  right: 20px;
+}
+
+.lightboxContent {
+  max-width: 90vw;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.lightboxImage {
+  max-width: 100%;
+  max-height: 80vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
+}
+
+.imageCounter {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.95rem;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+}
+
+.noImages {
+  color: var(--spacex-muted);
+  font-style: italic;
+  padding: 3rem 2rem;
+  text-align: center;
+  background: var(--glass-bg);
+  border: 1px dashed var(--glass-border);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.noImagesIcon {
+  opacity: 0.6;
+}
+
+@media (max-width: 768px) {
+  .gallery {
+    grid-template-columns: 1fr;
+  }
+
+  .navButton {
+    width: 44px;
+    height: 44px;
+  }
+
+  .prevButton {
+    left: 10px;
+  }
+
+  .nextButton {
+    right: 10px;
+  }
+
+  .closeButton {
+    top: 10px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+  }
+}

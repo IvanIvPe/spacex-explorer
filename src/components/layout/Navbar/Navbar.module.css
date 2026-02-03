@@ -1,89 +1,181 @@
 .navbar {
-    background: #ffffff;
-    height: 80px;
-    min-height: 80px;
-    max-height: 80px;
-    padding: 0 60px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    border-bottom: 1px solid #e5e7eb;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+  background: var(--spacex-gray);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  height: 80px;
+  min-height: 80px;
+  max-height: 80px;
+  padding: 0 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--glass-border);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  /* transition: all 0.3s ease; */
+}
+
+.navbar::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.5), transparent);
 }
 
 .logo {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    text-decoration: none;
-    color: #1f2937;
-    font-weight: 700;
-    font-size: 26.4px;
-    transition: color 0.2s ease;
-}
-
-.logo:hover {
-    color: #4f46e5;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: var(--spacex-white);
+  font-weight: 700;
+  font-size: 1.4rem;
+  transition: all 0.3s ease;
+  letter-spacing: -0.01em;
 }
 
 .logoIcon {
-    color: #4f46e5;
-    font-size: 28.8px;
+  color: #667eea;
+  transition: all 0.3s ease;
+}
+
+.logo:hover {
+  transform: scale(1.02);
+}
+
+.logo:hover .logoIcon {
+  transform: rotate(-15deg) scale(1.1);
+  filter: drop-shadow(0 0 8px rgba(102, 126, 234, 0.6));
+}
+
+.logoIcon {
+  font-size: 1.75rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .logoText {
-    font-weight: 700;
-    font-size: 26.4px;
-    color: #1f2937;
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--spacex-white);
+  letter-spacing: -0.02em;
 }
 
 .logoImage {
-    height: 40px;
-    width: auto;
+  height: 45px;
+  width: auto;
+  filter: brightness(0) invert(1);
+  /* transition: filter 0.3s ease; */
+}
+
+.logo:hover .logoImage {
+  filter: brightness(0) invert(1) drop-shadow(0 0 8px rgba(102, 126, 234, 0.8));
+}
+
+.navRight {
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 
 .navList {
-    display: flex;
-    list-style: none;
-    gap: 16px;
-    align-items: center;
-    margin: 0;
-    padding: 0;
+  display: flex;
+  list-style: none;
+  gap: 6px;
+  align-items: center;
+  margin: 0;
+  padding: 0;
 }
 
 .navLink {
-    color: #4b5563;
-    text-decoration: none;
-    font-size: 16.8px;
-    font-weight: 500;
-    padding: 12px 28px;
-    border-radius: 6px;
-    transition: all 0.2s ease;
-    display: inline-block;
+  color: var(--spacex-muted);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  padding: 10px 18px;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  background: transparent;
+}
+
+.navIcon {
+  transition: all 0.3s ease;
+  opacity: 0.7;
+}
+
+.navLink:hover .navIcon {
+  transform: scale(1.15);
+  opacity: 1;
 }
 
 .navLink:hover {
-    background-color: #f3f4f6;
-    color: #1f2937;
+  color: var(--spacex-white);
+  background: var(--glass-bg);
 }
 
 .navLink:active {
-    background-color: #e5e7eb;
+  transform: scale(0.98);
+}
+
+
+/* .navList li:nth-child(3) .navLink:hover::before {
+  filter: drop-shadow(0 0 6px rgba(251, 191, 36, 0.6));
+} */
+
+.navLink[aria-current="page"],
+.navLink:focus-visible {
+  color: var(--spacex-white);
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
 }
 
 @media (max-width: 768px) {
-    .navbar {
-        padding: 0 20px;
-    }
+  .navbar {
+    padding: 0 20px;
+  }
 
-    .navList {
-        gap: 8px;
-    }
+  .navList {
+    gap: 2px;
+  }
 
-    .navLink {
-        padding: 12px 16px;
-    }
+  .navLink {
+    padding: 10px 12px;
+    font-size: 0;
+    gap: 0;
+  }
+  
+  .navLink::before {
+    font-size: 1.1rem;
+  }
+  
+  .logo {
+    font-size: 0;
+    gap: 0;
+  }
+  
+  .logo::before {
+    font-size: 1.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    padding: 0 15px;
+    height: 70px;
+    min-height: 70px;
+    max-height: 70px;
+  }
+  
+  .navLink {
+    padding: 8px 10px;
+  }
 }
