@@ -2,20 +2,21 @@
 
 ## [Unreleased] - 2026-02-03
 
+### Added
+- Dynamic Footer with real-time SpaceX API data
+  - Live statistics fetched from SpaceX API (Total Launches, Landings, Reflights)
+  - `getLaunchStats()` function in spacexApi service
+- Error handling for API calls with graceful fallback to default values
+
 ### Changed
 - Replaced Font Awesome icons with Lucide React icons throughout the application
 - Removed all Font Awesome packages and webfonts
 - Updated all components to use inline Lucide SVG icons instead of CSS pseudo-elements
+- Refactored Footer component to be an async Server Component
+- Footer now uses Lucide `Rocket` icon instead of Font Awesome
 
-## [Previous] - 2026-02-02
-
-### Added
-- Dynamic Footer with real-time SpaceX API data
-  - Company information (Summary, Founder, HQ)
-  - Live statistics (Total Launches, Vehicles, Launch Sites)
-
-### Changed 
-- Refactored Footer component to be asynchronous and fetch live data instead of using hardcoded values
+### Fixed
+- Favorite star button jumping on hover (transform conflict resolved)
 
 ## [Previous] - 2026-01-30
 
