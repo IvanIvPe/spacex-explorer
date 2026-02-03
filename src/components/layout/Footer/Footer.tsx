@@ -1,16 +1,19 @@
 import React from "react";
 import Link from "next/link";
 import styles from "./Footer.module.css";
+import { getLaunchStats } from "@/services/spacexApi";
+import { Rocket } from "lucide-react";
 
-const Footer: React.FC = () => {
+export default async function Footer() {
     const currentYear = new Date().getFullYear();
+    const stats = await getLaunchStats();
 
     return (
         <footer className={styles.footer}>
             <div className={styles.footerContent}>
                 <div className={styles.brandSection}>
                     <div className={styles.brandLogo}>
-                        <span className={styles.rocketIcon}></span>
+                        <Rocket className={styles.rocketIcon} size={28} />
                         <span className={styles.brandName}>SpaceX Explorer</span>
                     </div>
                     <p className={styles.tagline}>
@@ -55,15 +58,15 @@ const Footer: React.FC = () => {
                     <h4 className={styles.sectionTitle}>Stats</h4>
                     <div className={styles.statItems}>
                         <div className={styles.statItem}>
-                            <span className={styles.statNumber}>200+</span>
+                            <span className={styles.statNumber}>{stats.totalLaunches}</span>
                             <span className={styles.statLabel}>Launches</span>
                         </div>
                         <div className={styles.statItem}>
-                            <span className={styles.statNumber}>150+</span>
+                            <span className={styles.statNumber}>{stats.totalLandings}</span>
                             <span className={styles.statLabel}>Landings</span>
                         </div>
                         <div className={styles.statItem}>
-                            <span className={styles.statNumber}>20+</span>
+                            <span className={styles.statNumber}>{stats.totalReflights}</span>
                             <span className={styles.statLabel}>Reflights</span>
                         </div>
                     </div>
@@ -80,6 +83,4 @@ const Footer: React.FC = () => {
             </div>
         </footer>
     );
-};
-
-export default Footer;
+}

@@ -112,3 +112,24 @@ export const getLaunchesByIds = async (ids: string[]) => {
     
     return response.data.docs;
 };
+
+export const getLaunchStats = async () => {
+    const response = await axiosInstance.post('/launches/query', {
+        query: {},
+        options: {
+            pagination: false,
+        },
+    });
+
+    const launches = response.data.docs;
+    
+    return {
+        totalLaunches: launches.length,
+        totalLandings: launches.filter((l: { cores?: { landing_success?: boolean }[] }) => 
+            l.cores?.some(c => c.landing_success === true)
+        ).length,
+        totalReflights: launches.filter((l: { cores?: { reused?: boolean }[] }) => 
+            l.cores?.some(c => c.reused === true)
+        ).length,
+    };
+};
