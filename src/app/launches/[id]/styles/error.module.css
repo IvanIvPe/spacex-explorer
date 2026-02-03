@@ -14,12 +14,7 @@
   animation: pulse 2s ease-in-out infinite;
 }
 
-.icon::before {
-  content: '\f071';
-  font-family: 'Font Awesome 6 Free';
-  font-weight: 900;
-  color: #ef4444;
-}
+
 
 .title {
   color: #ef4444;
@@ -57,12 +52,7 @@
   gap: 0.5rem;
 }
 
-.button::before {
-  content: '\f2f1';
-  font-family: 'Font Awesome 6 Free';
-  font-weight: 900;
-  font-size: 0.9rem;
-}
+
 
 .button:hover {
   transform: translateY(-2px);
@@ -84,12 +74,7 @@
   gap: 0.5rem;
 }
 
-.buttonSecondary::before {
-  content: '\f060';
-  font-family: 'Font Awesome 6 Free';
-  font-weight: 900;
-  font-size: 0.9rem;
-}
+
 
 .buttonSecondary:hover {
   background: var(--glass-bg);

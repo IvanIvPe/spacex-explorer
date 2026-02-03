@@ -1,6 +1,23 @@
 # Changelog
 
-## [Unreleased] - 2026-01-30
+## [Unreleased] - 2026-02-03
+
+### Changed
+- Replaced Font Awesome icons with Lucide React icons throughout the application
+- Removed all Font Awesome packages and webfonts
+- Updated all components to use inline Lucide SVG icons instead of CSS pseudo-elements
+
+## [Previous] - 2026-02-02
+
+### Added
+- Dynamic Footer with real-time SpaceX API data
+  - Company information (Summary, Founder, HQ)
+  - Live statistics (Total Launches, Vehicles, Launch Sites)
+
+### Changed 
+- Refactored Footer component to be asynchronous and fetch live data instead of using hardcoded values
+
+## [Previous] - 2026-01-30
 
 ### Added
 - Local Font Awesome package (`@fortawesome/fontawesome-free`)

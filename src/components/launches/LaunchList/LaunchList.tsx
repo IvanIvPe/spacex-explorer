@@ -9,6 +9,7 @@ import { Launch } from '@/types/launch';
 import { useFavoritesStore } from '@/stores/useFavoritesStore';
 import { PaginatedResponse } from '@/services/spacexApi';
 import { useDebouncedCallback } from 'use-debounce';
+import { Rocket, Calendar, Camera, ChevronDown, Star } from 'lucide-react';
 
 interface LaunchListProps {
     paginatedData: PaginatedResponse<Launch>;
@@ -127,7 +128,10 @@ export default function LaunchList({ paginatedData, currentParams }: LaunchListP
 
     return (
         <div className={styles.launchListContainer}>
-            <h1>SpaceX Launches</h1>
+            <h1>
+                <Rocket className={styles.headerIcon} size={24} />
+                SpaceX Launches
+            </h1>
 
             <div className={styles.filtersContainer}>
                 <div className={`${styles.filterGroup} ${styles.searchContainer}`}>
@@ -231,15 +235,20 @@ export default function LaunchList({ paginatedData, currentParams }: LaunchListP
                                     className={styles.favButton}
                                     aria-label={isFav ? "Unfavorite" : "Favorite"}
                                 >
-                                    {isFav ? '★' : '☆'}
+                                    <Star 
+                                        size={24} 
+                                        fill={isFav ? "#fbbf24" : "none"} 
+                                        color="#fbbf24"
+                                    />
                                 </Button>
                                 <h2>
                                     {launch.name}
                                     {launch.links?.flickr?.original && launch.links.flickr.original.length > 0 && (
-                                        <span className={styles.cameraIcon} title="Image Exists"> 📷</span>
+                                        <Camera className={styles.cameraIcon} size={16} />
                                     )}
                                 </h2>
-                                <p>
+                                <p className={styles.launchDate}>
+                                    <Calendar className={styles.dateIcon} size={14} />
                                     Date: {new Date(launch.date_utc).toLocaleDateString('en-GB', {
                                         day: '2-digit',
                                         month: '2-digit',
@@ -259,8 +268,10 @@ export default function LaunchList({ paginatedData, currentParams }: LaunchListP
                     <Button 
                         onClick={handleLoadMore}
                         variant="primary"
+                        className={styles.loadMoreButton}
                     >
                         Load More
+                        <ChevronDown size={16} />
                     </Button>
                 </div>
             )}

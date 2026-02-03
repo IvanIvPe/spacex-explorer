@@ -46,15 +46,8 @@
 }
 
 .zoomIcon {
-  font-size: 2rem;
   color: white;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
-}
-
-.zoomIcon::before {
-  content: '\f00e';
-  font-family: 'Font Awesome 6 Free';
-  font-weight: 900;
 }
 
 .lightbox {
@@ -86,7 +79,6 @@
   border: none;
   background: rgba(255, 255, 255, 0.1);
   color: white;
-  font-size: 1.5rem;
   border-radius: 50%;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -94,12 +86,6 @@
   align-items: center;
   justify-content: center;
   z-index: 10;
-}
-
-.closeButton::before {
-  content: '\f00d';
-  font-family: 'Font Awesome 6 Free';
-  font-weight: 900;
 }
 
 .closeButton:hover {
@@ -116,7 +102,6 @@
   border: none;
   background: rgba(255, 255, 255, 0.1);
   color: white;
-  font-size: 2.5rem;
   border-radius: 50%;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -135,20 +120,8 @@
   left: 20px;
 }
 
-.prevButton::before {
-  content: '\f053';
-  font-family: 'Font Awesome 6 Free';
-  font-weight: 900;
-}
-
 .nextButton {
   right: 20px;
-}
-
-.nextButton::before {
-  content: '\f054';
-  font-family: 'Font Awesome 6 Free';
-  font-weight: 900;
 }
 
 .lightboxContent {
@@ -193,12 +166,8 @@
   gap: 1rem;
 }
 
-.noImagesIcon::before {
-  content: '\f03e';
-  font-family: 'Font Awesome 6 Free';
-  font-weight: 400;
-  font-size: 2.5rem;
-  opacity: 0.4;
+.noImagesIcon {
+  opacity: 0.6;
 }
 
 @media (max-width: 768px) {
@@ -209,7 +178,6 @@
   .navButton {
     width: 44px;
     height: 44px;
-    font-size: 2rem;
   }
 
   .prevButton {

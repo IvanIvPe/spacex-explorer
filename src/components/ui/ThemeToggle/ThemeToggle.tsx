@@ -2,6 +2,7 @@
 
 import { useThemeStore } from '@/stores/useThemeStore';
 import styles from './ThemeToggle.module.css';
+import { Sun, Moon } from 'lucide-react';
 
 export default function ThemeToggle() {
   const { theme, toggleTheme, hasHydrated } = useThemeStore();
@@ -17,7 +18,11 @@ export default function ThemeToggle() {
       aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
       title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
     >
-      <span className={theme === 'dark' ? styles.sunIcon : styles.moonIcon} />
+      {theme === 'dark' ? (
+        <Sun className={styles.sunIcon} size={20} />
+      ) : (
+        <Moon className={styles.moonIcon} size={20} />
+      )}
     </button>
   );
 }

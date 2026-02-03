@@ -10,16 +10,9 @@
 }
 
 .icon {
-  font-size: 4rem;
   color: #ef4444;
   opacity: 0.8;
   animation: pulse 2s ease-in-out infinite;
-}
-
-.icon::before {
-  content: '\f071';
-  font-family: 'Font Awesome 6 Free';
-  font-weight: 900;
 }
 
 .title {

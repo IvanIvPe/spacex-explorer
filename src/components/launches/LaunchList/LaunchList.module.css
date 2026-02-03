@@ -14,15 +14,8 @@
   gap: 0.75rem;
 }
 
-.launchListContainer h1::before {
-  content: '\f135';
-  font-family: 'Font Awesome 6 Free';
-  font-weight: 900;
-  font-size: 1.5rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+.headerIcon {
+  color: #667eea;
 }
 
 .filtersContainer {
@@ -89,12 +82,6 @@
   display: flex;
   align-items: center;
   gap: 6px;
-}
-
-.filterGroup label::before {
-  font-family: 'Font Awesome 6 Free';
-  font-weight: 900;
-  font-size: 0.75rem;
 }
 
 .filters input,
@@ -235,7 +222,6 @@
 }
 
 .cameraIcon {
-  font-size: 0.875rem;
   color: var(--spacex-muted);
   transition: color 0.3s ease;
 }
@@ -248,24 +234,29 @@
   margin: 0;
   color: var(--spacex-muted);
   font-size: 0.9rem;
+}
+
+.launchDate {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  margin-bottom: 0.25rem;
 }
 
-.launchItem p::before {
-  content: '\f073';
-  font-family: 'Font Awesome 6 Free';
-  font-weight: 400;
-  font-size: 0.8rem;
+.dateIcon {
   opacity: 0.7;
 }
 
 .favButton {
   position: absolute !important;
-  top: 1.5rem;
+  top: 50%;
   right: 1.5rem;
+  transform: translateY(-50%);
   z-index: 2;
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 .loadMoreContainer {
@@ -273,6 +264,12 @@
   justify-content: center;
   margin-top: 2.5rem;
   padding: 1rem 0;
+}
+
+.loadMoreButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 @media (max-width: 768px) {

@@ -22,29 +22,11 @@
   transform: scale(0.95);
 }
 
-.icon {
-  font-size: 1.25rem;
-  line-height: 1;
-}
-
-.sunIcon,
-.moonIcon {
-  font-size: 1.25rem;
-  line-height: 1;
-  color: var(--spacex-white);
-}
-
-.sunIcon::before {
-  content: '\f185';
-  font-family: 'Font Awesome 6 Free';
-  font-weight: 900;
+.sunIcon {
   color: #fbbf24;
 }
 
-.moonIcon::before {
-  content: '\f186';
-  font-family: 'Font Awesome 6 Free';
-  font-weight: 900;
+.moonIcon {
   color: #a5b4fc;
 }
 

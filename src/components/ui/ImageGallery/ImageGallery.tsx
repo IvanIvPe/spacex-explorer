@@ -3,6 +3,7 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import styles from './ImageGallery.module.css';
+import { ZoomIn, X, ChevronLeft, ChevronRight, ImageOff } from 'lucide-react';
 
 interface ImageGalleryProps {
   images: string[];
@@ -81,7 +82,7 @@ export default function ImageGallery({ images, altPrefix }: ImageGalleryProps) {
   if (!images || images.length === 0) {
     return (
       <div className={styles.noImages}>
-        <span className={styles.noImagesIcon} />
+        <ImageOff className={styles.noImagesIcon} size={40} />
         <p>There are currently no pictures for this launch.</p>
       </div>
     );
@@ -106,7 +107,7 @@ export default function ImageGallery({ images, altPrefix }: ImageGalleryProps) {
               loading="lazy"
             />
             <div className={styles.thumbnailOverlay}>
-              <span className={styles.zoomIcon} />
+              <ZoomIn className={styles.zoomIcon} size={32} />
             </div>
           </button>
         ))}
@@ -126,6 +127,7 @@ export default function ImageGallery({ images, altPrefix }: ImageGalleryProps) {
             onClick={closeLightbox}
             aria-label="Close image viewer"
           >
+            <X size={24} />
           </button>
 
           <button
@@ -136,6 +138,7 @@ export default function ImageGallery({ images, altPrefix }: ImageGalleryProps) {
             }}
             aria-label="Previous image"
           >
+            <ChevronLeft size={32} />
           </button>
 
           <div
@@ -163,6 +166,7 @@ export default function ImageGallery({ images, altPrefix }: ImageGalleryProps) {
             }}
             aria-label="Next image"
           >
+            <ChevronRight size={32} />
           </button>
         </div>
       )}

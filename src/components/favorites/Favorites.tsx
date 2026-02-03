@@ -6,6 +6,7 @@ import Button from '@/components/ui/Button';
 import styles from './Favorites.module.css';
 import { useQuery } from '@tanstack/react-query';
 import { getLaunchesByIds } from '@/services/spacexApi';
+import { Star, Rocket, X, ArrowRight, StarOff } from 'lucide-react';
 
 export default function Favorites() {
   const { favoriteIds, removeFavorite, hasHydrated } = useFavoritesStore();
@@ -28,7 +29,10 @@ export default function Favorites() {
   if (isError) {
     return (
       <div className={styles.container}>
-        <h1>Your Favorite Launches</h1>
+        <h1>
+          <Star className={styles.headerIcon} size={24} />
+          Your Favorite Launches
+        </h1>
         <div className={styles.emptyState}>
           <p>Error loading your favorite launches.</p>
           <div className={styles.actions}>
@@ -46,13 +50,25 @@ export default function Favorites() {
 
   return (
     <div className={styles.container}>
-      <h1>Your Favorite Launches</h1>
+      <h1>
+        <Star className={styles.headerIcon} size={24} />
+        Your Favorite Launches
+      </h1>
+      
+      {favoriteIds.length > 0 && (
+        <span className={styles.countBadge}>
+          <Rocket size={12} />
+          {favoriteIds.length} launch{favoriteIds.length !== 1 ? 'es' : ''}
+        </span>
+      )}
 
       {favoriteLaunches.length === 0 ? (
         <div className={styles.emptyState}>
+          <StarOff className={styles.emptyIcon} size={56} />
           <p>You haven't added any launches to your favorites yet.</p>
           <Link href="/launches" className={styles.link}>
             Browse Launches
+            <ArrowRight size={14} />
           </Link>
         </div>
       ) : (
@@ -77,13 +93,14 @@ export default function Favorites() {
               <div className={styles.actions}>
                 <Link href={`/launches/${launch.id}`} className={styles.link}>
                   View Details
+                  <ArrowRight size={14} />
                 </Link>
                 <Button
                   onClick={() => handleRemove(launch.id)}
                   variant="removeButton"
                   aria-label="Remove from favorites"
                 >
-                  X
+                  <X size={16} />
                 </Button>
               </div>
             </li>
