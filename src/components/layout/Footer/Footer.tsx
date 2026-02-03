@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import styles from "./Footer.module.css";
 import { getLaunchStats } from "@/services/spacexApi";
+import { Rocket } from "lucide-react";
 
 export default async function Footer() {
     const currentYear = new Date().getFullYear();
@@ -12,7 +13,7 @@ export default async function Footer() {
             <div className={styles.footerContent}>
                 <div className={styles.brandSection}>
                     <div className={styles.brandLogo}>
-                        <span className={styles.rocketIcon}></span>
+                        <Rocket className={styles.rocketIcon} size={28} />
                         <span className={styles.brandName}>SpaceX Explorer</span>
                     </div>
                     <p className={styles.tagline}>
