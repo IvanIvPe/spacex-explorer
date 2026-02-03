@@ -259,6 +259,10 @@
   box-shadow: none !important;
 }
 
+.favButton:hover {
+  transform: translateY(-50%) scale(1.15) !important;
+}
+
 .loadMoreContainer {
   display: flex;
   justify-content: center;
