@@ -133,3 +133,14 @@ export const getLaunchStats = async () => {
         ).length,
     };
 };
+
+export const getAllLaunches = async () => {
+    const response = await axiosInstance.post('/launches/query', {
+        query: {},
+        options: {
+            pagination: false,
+            sort: { date_utc: 1 },
+        },
+    });
+    return response.data.docs;
+};
