@@ -1,6 +1,17 @@
 # Changelog
 
-## [Unreleased] - 2026-02-03
+## [Unreleased] - 2026-02-09
+
+### Added
+- Dashboard page with launch analytics and charts
+  - Launches by Year: ComposedChart showing total launches and success trend line
+  - Overview stats cards (Total Launches, Successful, Upcoming)
+- Chart components with recharts library
+  - `LaunchesByYear` component: Bar chart with trend line
+- `getAllLaunches()` API function for fetching complete launch data for charts
+
+
+## [Previous] - 2026-02-03
 
 ### Added
 - Dynamic Footer with real-time SpaceX API data
