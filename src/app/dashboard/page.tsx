@@ -1,5 +1,5 @@
 import { getAllLaunches } from '@/services/spacexApi';
-import { LaunchsByYear, SuccessRatePie } from '@/components/charts';
+import { LaunchsByYear } from '@/components/charts';
 import styles from '@/components/charts/Charts.module.css';
 
 export default async function DashboardPage() {
@@ -30,7 +30,6 @@ export default async function DashboardPage() {
 
             <div className={styles.chartsGrid}>
                 <LaunchsByYear launches={launches} />
-                <SuccessRatePie launches={launches} />
             </div>
         </div>
     );

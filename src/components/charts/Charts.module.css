@@ -1,65 +1,22 @@
 .chartContainer {
     background: var(--color-card-bg, #ffffff);
     border-radius: 12px;
-    padding: 1.5rem;
+    padding: 2rem;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     border: 1px solid var(--color-border, #e5e7eb);
 }
 
 .chartTitle {
-    margin: 0;
-    font-size: 1.125rem;
+    margin: 0 0 1.5rem 0;
+    font-size: 1.25rem;
     font-weight: 600;
     color: var(--color-text, #1f2937);
 }
 
-.pieHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-}
-
-.percentageBadge {
-    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    font-size: 1.1rem;
-    font-weight: 700;
-}
-
-.statsRow {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    margin-top: 1.5rem;
-    padding: 1rem 0;
-    border-top: 1px solid var(--color-border, #e5e7eb);
-}
-
-.statBox {
-    text-align: center;
-}
-
-.statNumber {
-    font-size: 1.75rem;
-    font-weight: 700;
-    color: var(--color-text, #1f2937);
-}
-
-.statLabel {
-    font-size: 0.75rem;
-    color: var(--color-text-secondary, #6b7280);
-    font-weight: 500;
-    margin-top: 0.25rem;
-}
-
 .chartsGrid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    grid-template-columns: 1fr;
     gap: 1.5rem;
-    padding: 1.5rem;
 }
 
 .dashboardContainer {
@@ -111,5 +68,14 @@
     
     .dashboardContainer {
         padding: 100px 1rem 1rem;
+    }
+    
+    .chartContainer {
+        padding: 1.25rem;
+    }
+    
+    .chartTitle {
+        font-size: 1.125rem;
+        margin-bottom: 1rem;
     }
 }

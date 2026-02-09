@@ -1,15 +1,13 @@
 # Changelog
 
-## [Unreleased] - 2026-02-05
+## [Unreleased] - 2026-02-09
 
 ### Added
 - Dashboard page with launch analytics and charts
   - Launches by Year: ComposedChart showing total launches and success trend line
-  - Success Rate: Pie chart displaying successful vs failed launches
   - Overview stats cards (Total Launches, Successful, Upcoming)
 - Chart components with recharts library
   - `LaunchsByYear` component: Bar chart with trend line
-  - `SuccessRatePie` component: Donut pie chart with percentage badge
 - `getAllLaunches()` API function for fetching complete launch data for charts
 
 

@@ -39,15 +39,29 @@ export function LaunchsByYear({ launches }: LaunchsByYearProps) {
     return (
         <div className={styles.chartContainer}>
             <h3 className={styles.chartTitle}>Launches by Year</h3>
-            <ResponsiveContainer width="100%" height={300}>
-                <ComposedChart data={data}>
+            <ResponsiveContainer width="100%" height={450}>
+                <ComposedChart data={data} margin={{ top: 20, right: 30, left: 0, bottom: 20 }}>
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="year" fontSize={12} />
-                    <YAxis fontSize={12} />
+                    <XAxis 
+                        dataKey="year" 
+                        fontSize={13} 
+                        angle={-45} 
+                        textAnchor="end" 
+                        height={80}
+                    />
+                    <YAxis fontSize={13} />
                     <Tooltip />
-                    <Legend />
-                    <Bar dataKey="total" name="Total" fill="#8884d8" />
-                    <Line type="monotone" dataKey="success" name="Success" stroke="#82ca9d" />
+                    <Legend wrapperStyle={{ paddingTop: '20px' }} />
+                    <Bar dataKey="total" name="Total Launches" fill="#3b82f6" radius={[8, 8, 0, 0]} />
+                    <Line 
+                        type="monotone" 
+                        dataKey="success" 
+                        name="Successful Launches" 
+                        stroke="#10b981" 
+                        strokeWidth={3}
+                        dot={{ r: 4 }}
+                        activeDot={{ r: 6 }}
+                    />
                 </ComposedChart>
             </ResponsiveContainer>
         </div>
