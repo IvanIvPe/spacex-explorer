@@ -3,14 +3,7 @@ import { LaunchesByYear } from '@/components/charts';
 import styles from '@/components/charts/Charts.module.css';
 
 export default async function DashboardPage() {
-    let launches;
-    
-    try {
-        launches = await getAllLaunches();
-    } catch (error) {
-        console.error('Error fetching launches for dashboard:', error);
-        throw new Error('Failed to load dashboard data');
-    }
+    const launches = await getAllLaunches();
     
     const totalLaunches = launches.length;
     const successfulLaunches = launches.filter((l) => l.success === true).length;

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { Launch } from '@/types/launch';
+import type { Launch, LaunchSummary } from '@/types/launch';
 
 const axiosInstance = axios.create({
     baseURL: 'https://api.spacexdata.com/v4',
@@ -135,7 +135,7 @@ export const getLaunchStats = async () => {
     };
 };
 
-export const getAllLaunches = async (): Promise<Launch[]> => {
+export const getAllLaunches = async (): Promise<LaunchSummary[]> => {
     const response = await axiosInstance.post('/launches/query', {
         query: {},
         options: {

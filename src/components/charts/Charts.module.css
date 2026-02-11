@@ -61,6 +61,56 @@
     color: var(--color-text, #1f2937);
 }
 
+.tooltip {
+    background: var(--color-card-bg, #ffffff);
+    border: 1px solid var(--color-border, #e5e7eb);
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    min-width: 180px;
+    pointer-events: none;
+}
+
+.tooltipYear {
+    margin: 0 0 0.5rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-text, #1f2937);
+}
+
+.tooltipRow {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.825rem;
+    color: var(--color-text-secondary, #6b7280);
+    padding: 0.2rem 0;
+}
+
+.tooltipRow:last-child {
+    color: var(--color-text, #1f2937);
+    font-weight: 600;
+}
+
+.tooltipDot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.tooltipValue {
+    margin-left: auto;
+    font-weight: 600;
+    color: var(--color-text, #1f2937);
+}
+
+.tooltipDivider {
+    height: 1px;
+    background: var(--color-border, #e5e7eb);
+    margin: 0.4rem 0;
+}
+
 @media (max-width: 768px) {
     .chartsGrid {
         grid-template-columns: 1fr;
