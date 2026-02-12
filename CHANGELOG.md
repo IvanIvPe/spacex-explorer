@@ -1,6 +1,15 @@
 # Changelog
 
-## [Unreleased] - 2026-02-11
+## [Unreleased] - 2026-02-12
+
+### Added
+- Success Rate chart component to dashboard
+  - AreaChart showing launch success percentage by year
+  - Custom tooltip with success statistics
+  - Gradient fill visualization
+
+
+## [Previous] - 2026-02-11
 
 ### Added
 - Custom tooltip component for charts with modern design
