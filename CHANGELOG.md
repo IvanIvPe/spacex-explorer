@@ -1,6 +1,47 @@
 # Changelog
 
-## [Unreleased] - 2026-02-03
+## [Unreleased] - 2026-02-12
+
+### Added
+- Success Rate chart component to dashboard
+  - AreaChart showing launch success percentage by year
+  - Custom tooltip with success statistics
+  - Gradient fill visualization
+
+
+## [Previous] - 2026-02-11
+
+### Added
+- Custom tooltip component for charts with modern design
+  - Shows year, total launches, successful launches, and success rate
+  - Styled with app theme variables and shadow effects
+  - Color-coded dots matching chart elements
+- `LaunchSummary` type for optimized data fetching
+
+### Changed
+- `getAllLaunches()` API function now returns `LaunchSummary[]` instead of `Launch[]` for better type safety
+  - Return type now matches the actual API select fields (`date_utc`, `success`, `upcoming`)
+- Replaced default Recharts tooltip with custom styled tooltip
+- Disabled tooltip animations to eliminate hover glitches
+- Added subtle cursor highlight on bar hover instead of default overlay
+
+### Fixed
+- Type mismatch in `getAllLaunches()` - now properly typed with `LaunchSummary`
+- Chart tooltip glitching and flickering on hover
+
+
+## [Previous] - 2026-02-09
+
+### Added
+- Dashboard page with launch analytics and charts
+  - Launches by Year: ComposedChart showing total launches and success trend line
+  - Overview stats cards (Total Launches, Successful, Upcoming)
+- Chart components with recharts library
+  - `LaunchesByYear` component: Bar chart with trend line
+- `getAllLaunches()` API function for fetching complete launch data for charts
+
+
+## [Previous] - 2026-02-03
 
 ### Added
 - Dynamic Footer with real-time SpaceX API data

@@ -1,0 +1,131 @@
+.chartContainer {
+    background: var(--color-card-bg, #ffffff);
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--color-border, #e5e7eb);
+}
+
+.chartTitle {
+    margin: 0 0 1.5rem 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-text, #1f2937);
+}
+
+.chartsGrid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+.dashboardContainer {
+    padding: 100px 2rem 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.dashboardTitle {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: var(--color-text, #1f2937);
+}
+
+.statsCards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.statCard {
+    background: var(--color-card-bg, #ffffff);
+    border-radius: 12px;
+    padding: 1.25rem;
+    text-align: center;
+    border: 1px solid var(--color-border, #e5e7eb);
+}
+
+.statCard h4 {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--color-text-secondary, #6b7280);
+    font-weight: 500;
+}
+
+.statCard p {
+    margin: 0.5rem 0 0;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--color-text, #1f2937);
+}
+
+.tooltip {
+    background: var(--color-card-bg, #ffffff);
+    border: 1px solid var(--color-border, #e5e7eb);
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    min-width: 180px;
+    pointer-events: none;
+}
+
+.tooltipYear {
+    margin: 0 0 0.5rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-text, #1f2937);
+}
+
+.tooltipRow {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.825rem;
+    color: var(--color-text-secondary, #6b7280);
+    padding: 0.2rem 0;
+}
+
+.tooltipRow:last-child {
+    color: var(--color-text, #1f2937);
+    font-weight: 600;
+}
+
+.tooltipDot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.tooltipValue {
+    margin-left: auto;
+    font-weight: 600;
+    color: var(--color-text, #1f2937);
+}
+
+.tooltipDivider {
+    height: 1px;
+    background: var(--color-border, #e5e7eb);
+    margin: 0.4rem 0;
+}
+
+@media (max-width: 768px) {
+    .chartsGrid {
+        grid-template-columns: 1fr;
+    }
+    
+    .dashboardContainer {
+        padding: 100px 1rem 1rem;
+    }
+    
+    .chartContainer {
+        padding: 1.25rem;
+    }
+    
+    .chartTitle {
+        font-size: 1.125rem;
+        margin-bottom: 1rem;
+    }
+}

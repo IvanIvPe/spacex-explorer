@@ -11,6 +11,8 @@ export interface Launch {
     };
 }
 
+export type LaunchSummary = Pick<Launch, 'date_utc' | 'success' | 'upcoming'>;
+
 export interface LaunchDetail extends Launch {
     rocket?: string;
     launchpad?: string;

@@ -3,11 +3,12 @@
 import Link from "next/link";
 import ThemeToggle from "@/components/ui/ThemeToggle";
 import styles from "./Navbar.module.css";
-import { Home, Rocket, Star, LucideIcon } from "lucide-react";
+import { Home, Rocket, Star, BarChart3, LucideIcon } from "lucide-react";
 
 const NavBarItems: {name: string; href: string; icon: LucideIcon}[] = [
     { name: "Home", href: "/", icon: Home },
     { name: "Launches", href: "/launches", icon: Rocket },
+    { name: "Dashboard", href: "/dashboard", icon: BarChart3 },
     { name: "Favorites", href: "/favorites", icon: Star },
 ]
 
